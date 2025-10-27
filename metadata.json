@@ -1,0 +1,6 @@
+{
+  "name": "ott",
+  "identifier": "com.domain.app.ott",
+  "version": "1.0.0",
+  "icon": "./static/icon.png"
+}
