@@ -1,33 +1,30 @@
 import { Lightning, Utils } from '@lightningjs/sdk'
 import { BRANDING_COLORS } from '../../utils/Colors'
+import { Direction } from '../../utils/Constants';
 
 export default class CardItem extends Lightning.Component {
     static _template() {
         return {
             rect: true,
-            w: 241,
-            h: 359,
+            y: 5,
+            x: -6,
             color: BRANDING_COLORS.TRANSPARENT,
-            flex: {
-                direction: "column",
-                paddingRight: 20,
-            },
+            flex: { direction: Direction.Column, paddingRight: 20 },
             Image: {
-                w: 229,
-                h: 300,
+                w: w => w - 26,
+                h: h => h - 59,
                 x: 6,
                 y: 6,
-
                 alpha: 1,
                 shader: {
                     type: Lightning.shaders.RoundedRectangle,
                     radius: 6,
                     stroke: 0,
-                    strokeColor: BRANDING_COLORS.TRANSPARENT,
+                    strokeColor: BRANDING_COLORS.RED,
                 },
             },
             Label: {
-                y: 20,
+                y: 16,
                 x: 6,
                 text: {
                     fontSize: 28,
@@ -37,14 +34,12 @@ export default class CardItem extends Lightning.Component {
         }
     }
 
-    _init() {
-        this.tag('Image').on('txLoaded', () => {
-            this.tag('Image').setSmooth('alpha', 1)
-        })
+    get _Image() {
+        return this.tag("Image")
+    }
 
-        this.tag('Image').on('txError', () => {
-            this.showPlaceholder()
-        })
+    get _Label() {
+        return this.tag("Label");
     }
 
     set itemData(data) {
@@ -53,38 +48,18 @@ export default class CardItem extends Lightning.Component {
     }
 
     _focus() {
-        this.tag('Image').shader = {
-            type: Lightning.shaders.RoundedRectangle,
-            radius: 6,
-            stroke: 6,
-            strokeColor: BRANDING_COLORS.RED,
-        }
-
         this.patch({
             smooth: { scale: 1.05 },
-        })
-
-        this.tag('Label').patch({
-            text: { textColor: BRANDING_COLORS.WHITE },
+            Image: { shader: { stroke: 6 } },
+            Label: { text: { textColor: BRANDING_COLORS.WHITE } }
         })
     }
 
     _unfocus() {
-        this.tag('Image').shader = {
-            type: Lightning.shaders.RoundedRectangle,
-            radius: 6,
-            stroke: 0,
-            strokeColor: BRANDING_COLORS.TRANSPARENT,
-        }
-
         this.patch({
             smooth: { scale: 1.0 },
-        })
-
-        this.tag('Label').patch({
-            text: { textColor: BRANDING_COLORS.LIGHTER_GREY },
+            Image: { shader: { stroke: 0 } },
+            Label: { text: { textColor: BRANDING_COLORS.LIGHTER_GREY } }
         })
     }
-
-
 }

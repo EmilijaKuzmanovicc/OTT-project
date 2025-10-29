@@ -1,5 +1,8 @@
 import Lightning from "@lightningjs/sdk/src/Lightning";
-import ContentSection from "./components/PopularSection";
+import ContentSection from "./components/ContentSection";
+import Channels from "./components/TopChannels";
+import { BRANDING_COLORS } from "../../utils/Colors";
+import { Align, Fonts } from "../../utils/Constants";
 
 export default class Home extends Lightning.Component {
     static _template() {
@@ -11,9 +14,13 @@ export default class Home extends Lightning.Component {
                 h: 980,
                 type: ContentSection,
             },
-            TopFive: {
+            TopChannels: {
+                y: 122,
+                x: 1415,
 
-            }
+                type: Channels
+            },
+
         };
     }
 
@@ -21,13 +28,35 @@ export default class Home extends Lightning.Component {
         return this.tag('Content');
     }
 
-    get _TopFive() {
-        return this.tag('TopFive');
+    get _TopChannels() {
+        return this.tag('TopChannels');
     }
 
-    _getFocused() {
-        return this.tag('Content')
+    _init() {
+        this._setState('Content')
+    }
 
+    static _states() {
+        return [
+            class Content extends this{
+                _getFocused() {
+                    return this._Content;
+                }
+                _handleRight() {
+                    this._setState('TopChannels');
+                    return true;
+                }
+            },
+            class TopChannels extends this{
+                _getFocused() {
+                    return this._TopChannels;
+                }
+                _handleLeft() {
+                    this._setState('Content');
+                    return true;
+                }
+            }
+        ]
     }
 
 }

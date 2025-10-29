@@ -1,6 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link
+      rel="preload"
+      href="static/fonts/Inter_28pt-Regular.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="static/fonts/Inter_28pt-Bold.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="static/fonts/Inter_18pt-ExtraBold.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
+
     <style>
       html,
       body {
@@ -9,10 +31,13 @@
         overflow: hidden;
         width: 100%;
         height: 100%;
+
         background: rgba(154, 147, 147, 0.767);
       }
       canvas {
         display: block;
+        position: absolute;
+        z-index: 2;
       }
     </style>
   </head>
