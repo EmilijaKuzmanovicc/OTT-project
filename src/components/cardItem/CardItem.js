@@ -1,6 +1,6 @@
 import { Lightning, Utils } from '@lightningjs/sdk'
-import { BRANDING_COLORS } from '../../utils/Colors'
-import { Direction } from '../../utils/Constants';
+import { BRANDING_COLORS } from '../../utils/constants/Colors'
+import { Direction } from '../../utils/constants/ConstantsForStyle';
 
 export default class CardItem extends Lightning.Component {
     static _template() {
@@ -50,7 +50,7 @@ export default class CardItem extends Lightning.Component {
     _focus() {
         this.patch({
             smooth: { scale: 1.05 },
-            Image: { shader: { stroke: 6 } },
+            Image: { shader: { stroke: 6 }, },
             Label: { text: { textColor: BRANDING_COLORS.WHITE } }
         })
     }
@@ -62,4 +62,5 @@ export default class CardItem extends Lightning.Component {
             Label: { text: { textColor: BRANDING_COLORS.LIGHTER_GREY } }
         })
     }
+
 }

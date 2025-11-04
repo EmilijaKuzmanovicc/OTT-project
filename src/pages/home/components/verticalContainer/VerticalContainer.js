@@ -1,7 +1,7 @@
-import Lightning from "@lightningjs/sdk/src/Lightning";
+import { Lightning } from "@lightningjs/sdk";
 import { Clamp } from "../../../../utils/Clamp";
-import { Direction, Align, Fonts } from '../../../../utils/Constants';
-import { BRANDING_COLORS } from "../../../../utils/Colors";
+import { Direction, Align, Fonts } from '../../../../utils/constants/ConstantsForStyle';
+import { BRANDING_COLORS } from "../../../../utils/constants/Colors";
 
 export default class VerticalContainer extends Lightning.Component {
     _props = {

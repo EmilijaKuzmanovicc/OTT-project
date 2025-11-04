@@ -1,6 +1,6 @@
-import Lightning from "@lightningjs/sdk/src/Lightning";
-import { BRANDING_COLORS } from "../../../utils/Colors";
-import { Align, Fonts } from "../../../utils/Constants";
+import { Lightning } from "@lightningjs/sdk";
+import { BRANDING_COLORS } from "../../../utils/constants/Colors";
+import { Align, Fonts } from "../../../utils/constants/ConstantsForStyle";
 
 export class LiveButton extends Lightning.Component {
 
@@ -24,6 +24,7 @@ export class LiveButton extends Lightning.Component {
                     fontSize: 24,
                     letterSpacing: 2,
                     textAlign: Align.Center,
+                    textColor: BRANDING_COLORS.WHITE,
                     text: "GO TO LIVE PLAYER",
                 }
             }

@@ -16,7 +16,7 @@
   },
   "platformSettings": {
     "path": "./static",
-    "log": false,
+    "log": true,
     "showVersion": false,
     "inspector": true
   }

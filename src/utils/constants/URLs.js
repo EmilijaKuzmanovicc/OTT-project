@@ -9,4 +9,20 @@ export const IMAGES_URL = {
     PLAY: "../public/images/play.png",
     LOGO: "../public/images/logo.png",
     IMAGE_NOT_FOUND: "../public/images/no_poster.png",
+    SHINDIRI: "../public/images/shindiri.png",
+    BACKGROUND_SHINDIRI: "../public/images/backpicture.jpg",
+    LOADER: "../public/images/spinner.svg",
+}
+
+export const API_URLS = {
+    CREDITS: "/credits",
+    MOVIE_DETAIL: `/movie`,
+    SERIES_DETAIL: "/tv",
+    GET_MOVIES: `/movie/popular`,
+    GET_SERIES: `/tv/popular`,
+    GET_MOVIE_GENRES_LIST: `/genre/movie/list`,
+    GET_MOVIES_BY_GENRES: `/discover/movie`,
+    GET_SERIES_GENRES_LIST: `/genre/tv/list`,
+    GET_SERIES_BY_GENRES: `discover/tv`,
+    IMAGES: `/images`,
 }

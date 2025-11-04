@@ -1,6 +1,6 @@
-import Lightning from "@lightningjs/sdk/src/Lightning";
+import { Lightning, Router } from "@lightningjs/sdk";
 import HorizontalContainer from "../../../components/horizontalContainer/HorizontalContainer";
-import { movies, series } from "../../../utils/Data";
+import { movies, series } from "../../../utils/constants/Data";
 import CardItem from "../../../components/cardItem/CardItem";
 import { LiveButton } from "./LiveButton";
 
@@ -62,10 +62,10 @@ export default class ContentSection extends Lightning.Component {
                 }
             }
         });
-        // this._setupSection(this._MoviesSection, movies, "movies");
-        // this._setupSection(this._SeriesSection, series, "series");
+    }
 
-        this._setState('MoviesSection');
+    _active() {
+        this._setState('MoviesSection')
     }
 
     _setupSection(section, items, title) {
@@ -87,6 +87,10 @@ export default class ContentSection extends Lightning.Component {
                 }
                 _handleDown() {
                     this._setState('SeriesSection');
+                    return true;
+                }
+                _handleUp() {
+                    Router.focusWidget('Menu')
                     return true;
                 }
             },
@@ -114,5 +118,8 @@ export default class ContentSection extends Lightning.Component {
                 }
             }
         ];
+    }
+    _getFocused() {
+        return this.Items?.children[0] || this;
     }
 }

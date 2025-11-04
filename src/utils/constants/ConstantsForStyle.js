@@ -1,8 +1,8 @@
 export const Fonts = {
-    Inter: "Inter",
-    InterBold: "InterBold",
-    ExtraBold: "ExtraBold",
-    SemiBold: "SemiBold"
+    Inter: 'Inter',
+    InterBold: 'InterBold',
+    ExtraBold: 'ExtraBold',
+    SemiBold: 'SemiBold'
 }
 
 export const Direction = {

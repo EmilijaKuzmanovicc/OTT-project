@@ -1,8 +1,8 @@
-import Lightning from '@lightningjs/sdk/src/Lightning';
+import { Lightning } from '@lightningjs/sdk';
 import { Clamp } from '../../utils/Clamp';
-import { BRANDING_COLORS } from '../../utils/Colors';
-import { Direction } from '../../utils/Constants';
-import { Fonts } from '../../utils/Constants';
+import { BRANDING_COLORS } from '../../utils/constants/Colors';
+import { Direction } from '../../utils/constants/ConstantsForStyle';
+import { Fonts } from '../../utils/constants/ConstantsForStyle';
 export default class HorizontalContainer extends Lightning.Component {
 
     _props = {
@@ -28,7 +28,6 @@ export default class HorizontalContainer extends Lightning.Component {
 
             },
             Items: {
-                y: 0,
                 flex: {
                     direction: Direction.Row,
                 },

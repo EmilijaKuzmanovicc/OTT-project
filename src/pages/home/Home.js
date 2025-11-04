@@ -1,10 +1,11 @@
-import Lightning from "@lightningjs/sdk/src/Lightning";
 import ContentSection from "./components/ContentSection";
 import Channels from "./components/TopChannels";
-import { BRANDING_COLORS } from "../../utils/Colors";
-import { Align, Fonts } from "../../utils/Constants";
-
+import { Router, Lightning } from "@lightningjs/sdk";
 export default class Home extends Lightning.Component {
+    _props = {
+        homeData: null,
+        railData: [],
+    }
     static _template() {
         return {
             Content: {
@@ -32,13 +33,30 @@ export default class Home extends Lightning.Component {
         return this.tag('TopChannels');
     }
 
-    _init() {
+    set props(props) {
+
+        this._props = { ...this._props, ...props };
+        const { homeData, railData } = this._props;
+
+
+
+    }
+    _handleHover() {
+        Router.focusPage();
+    }
+
+    _active() {
         this._setState('Content')
     }
 
+    _focus() {
+        this._setState('Content')
+    }
+
+
     static _states() {
         return [
-            class Content extends this{
+            class Content extends this {
                 _getFocused() {
                     return this._Content;
                 }
@@ -46,8 +64,16 @@ export default class Home extends Lightning.Component {
                     this._setState('TopChannels');
                     return true;
                 }
+                _handleUp() {
+                    Router.focusWidget('Menu');
+                    return true;
+                }
+
+
+
+
             },
-            class TopChannels extends this{
+            class TopChannels extends this {
                 _getFocused() {
                     return this._TopChannels;
                 }
@@ -56,7 +82,8 @@ export default class Home extends Lightning.Component {
                     return true;
                 }
             }
-        ]
+        ];
     }
+
 
 }
