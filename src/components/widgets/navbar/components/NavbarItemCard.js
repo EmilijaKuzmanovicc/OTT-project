@@ -75,6 +75,7 @@ export default class NavbarItemCard extends Lightning.Component {
             Label: { text: { textColor: this._props.indexSelected === this._props.index ? BRANDING_COLORS.WHITE : BRANDING_COLORS.GREY }, }
         })
         this.fireAncestors('$changePage', this._props.index);
+        this.signal('onItemChange', '');
     }
     _handleDown() {
         return false;

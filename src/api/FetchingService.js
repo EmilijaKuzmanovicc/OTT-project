@@ -1,4 +1,5 @@
 import { api } from '../api/api.js'
+import { URLS_VITE } from '../utils/constants/env.js';
 export default class FetchingService {
     static instance = null;
 
@@ -35,7 +36,7 @@ export default class FetchingService {
     }
 
     #handleError(error) {
-        if (import.meta.env.MODE === "development") {
+        if (URLS_VITE.MODE === "development") {
             console.error("API Error:", {
                 status: error.response?.status,
                 data: error.response?.data,

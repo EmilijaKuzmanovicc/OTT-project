@@ -6,6 +6,7 @@ import MediaHeader from '../components/MediaHeader'
 import MediaInformations from '../components/MediaInformations'
 import { IMAGES_URL } from '../../../utils/constants/URLs'
 import { CONTENT_RATING } from '../../../utils/constants/Constants'
+import { URLS_VITE } from '../../../utils/constants/env'
 
 export default class SeriesDetalPage extends Lightning.Component {
 
@@ -79,7 +80,7 @@ export default class SeriesDetalPage extends Lightning.Component {
 
         const formattedRating = Number.isInteger(vote_average) ? vote_average : vote_average.toFixed(1);
         const info = `${origin_country} - ${(adult ? CONTENT_RATING.PG : CONTENT_RATING.G)} - IMDb: ${formattedRating}`;
-        const imageUrl = backdrop_path ? `${import.meta.env.VITE_TMDB_IMAGE_URL_HTTP}${backdrop_path}` : Utils.asset(IMAGES_URL.SHINDIRI);
+        const imageUrl = backdrop_path ? `${URLS_VITE.VITE_TMDB_IMAGE_URL_POSTER}${backdrop_path}` : Utils.asset(IMAGES_URL.SHINDIRI);
         this.patch({
             Detail: {
                 MediaHeader: {

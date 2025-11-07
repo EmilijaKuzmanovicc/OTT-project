@@ -3,19 +3,24 @@ import { BRANDING_COLORS } from '../../utils/constants/Colors'
 import { Direction } from '../../utils/constants/ConstantsForStyle';
 import { IMAGES_URL } from '../../utils/constants/URLs';
 import { ITEMS_NAME } from '../../utils/constants/Constants';
+import { URLS_VITE } from '../../utils/constants/env';
 
 export default class CardItem extends Lightning.Component {
     _overview = '';
     _backdrop_path;
+    _focusTimeout = null;
     static _template() {
         return {
             rect: true,
+            y: 5,
+            x: -6,
+
             color: BRANDING_COLORS.TRANSPARENT,
-            flex: { direction: Direction.Column },
+            flex: { direction: Direction.Column, paddingRight: 20 },
             Image: {
                 w: w => w - 26,
                 h: h => h - 59,
-                x: 12,
+                x: 6,
                 y: 6,
                 alpha: 1,
                 shader: {
@@ -27,7 +32,7 @@ export default class CardItem extends Lightning.Component {
             },
             Label: {
                 y: 16,
-                x: 12,
+                x: 6,
                 text: {
                     fontSize: 28,
                     textColor: BRANDING_COLORS.LIGHTER_GREY,
@@ -51,8 +56,9 @@ export default class CardItem extends Lightning.Component {
         this._props = { ...this._props, ...props };
         const { poster_path, title, overview, name, railType, backdrop_path } = this._props;
         const poster = this._w > 250 ? backdrop_path : poster_path;
+
         const imageUrl = poster
-            ? `${import.meta.env.VITE_TMDB_IMAGE_URL_HTTP}${poster}`
+            ? `${URLS_VITE.VITE_TMDB_IMAGE_URL_POSTER}${poster}`
             : Utils.asset(IMAGES_URL.IMAGE_NOT_FOUND);
 
         this.patch({
@@ -65,15 +71,24 @@ export default class CardItem extends Lightning.Component {
     }
 
     _focus() {
-        this.fireAncestors("$onCardFocus", this._Label.text.text, this._overview, this._backdrop_path);
+        if (this._focusTimeout) {
+            clearTimeout(this._focusTimeout);
+        }
         this.patch({
             smooth: { scale: 1.05 },
             Image: { shader: { stroke: 6 }, },
             Label: { text: { textColor: BRANDING_COLORS.WHITE } }
         })
+        this._focusTimeout = setTimeout(() => {
+            this.fireAncestors("$onCardFocus", this._Label.text.text, this._overview, this._backdrop_path);
+        }, 1000);
     }
 
     _unfocus() {
+        if (this._focusTimeout) {
+            clearTimeout(this._focusTimeout);
+            this._focusTimeout = null;
+        }
         this.patch({
             smooth: { scale: 1.0 },
             Image: { shader: { stroke: 0 } },

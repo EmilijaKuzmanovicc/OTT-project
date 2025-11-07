@@ -15,11 +15,12 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "start": "vite"
+    "start": "concurrently \"cross-env LNG_LIVE_RELOAD=true LNG_LIVE_RELOAD_PORT=8991 lng dev\" \"vite\""
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",
     "babel-eslint": "^10.0.3",
+    "concurrently": "^9.2.1",
     "eslint": "^8.21.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",

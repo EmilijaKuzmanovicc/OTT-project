@@ -1,7 +1,5 @@
-import { Router } from "@lightningjs/sdk";
 import { ITEMS_NAME } from "../../../utils/constants/Constants";
 import { HomePageService } from "../service/HomePageService";
-import { getRouteNavbarIndex } from "../../../utils/RoutesIndex";
 
 
 export default async function (page) {

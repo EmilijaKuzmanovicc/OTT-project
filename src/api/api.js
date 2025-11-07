@@ -1,11 +1,12 @@
 import axios from "axios";
+import { URLS_VITE } from "../utils/constants/env";
 
 export const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,
+    baseURL: URLS_VITE.VITE_API_URL,
     headers: {
-        Authorization: `Bearer ${import.meta.env.VITE_APP_API_KEY}`,
+        Authorization: `Bearer ${URLS_VITE.VITE_APP_API_KEY}`,
     },
     params: {
-        api_key: import.meta.env.VITE_APP_API_KEY,
+        api_key: URLS_VITE.VITE_APP_API_KEY,
     },
 });

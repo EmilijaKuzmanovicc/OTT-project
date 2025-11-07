@@ -5,6 +5,7 @@ import { BRANDING_COLORS } from "../../../utils/constants/Colors";
 import PropertyRow from "./PropertyRow";
 import { joinWords } from "../utils/joinWords";
 import Button from "../../../components/button/Button";
+import { URLS_VITE } from "../../../utils/constants/env";
 
 
 export default class MediaInformations extends Lightning.Component {
@@ -95,7 +96,7 @@ export default class MediaInformations extends Lightning.Component {
         const { poster_path, title, overview, actors, directorCreator, created_by } = this._props;
 
         const imageUrl = poster_path
-            ? `${import.meta.env.VITE_TMDB_IMAGE_URL_HTTP}${poster_path}`
+            ? `${URLS_VITE.VITE_TMDB_IMAGE_URL_HTTP}${poster_path}`
             : Utils.asset(IMAGES_URL.IMAGE_NOT_FOUND);
 
         const hasCreator = !!created_by;

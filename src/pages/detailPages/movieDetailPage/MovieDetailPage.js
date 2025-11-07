@@ -6,6 +6,7 @@ import MediaHeader from '../components/MediaHeader';
 import { CONTENT_RATING } from '../../../utils/constants/Constants';
 import MediaInformations from '../components/MediaInformations';
 import { BRANDING_COLORS } from '../../../utils/constants/Colors';
+import { URLS_VITE } from '../../../utils/constants/env';
 
 export default class MovieDetalPage extends Lightning.Component {
 
@@ -76,7 +77,7 @@ export default class MovieDetalPage extends Lightning.Component {
         const year = release_date.split("-")[0];
         const formattedRating = Number.isInteger(vote_average) ? vote_average : vote_average.toFixed(1);
         const info = `${origin_country} - ${year} - ${(adult ? CONTENT_RATING.PG : CONTENT_RATING.G)} - IMDb: ${formattedRating}`;
-        const imageUrl = backdrop_path ? `${import.meta.env.VITE_TMDB_IMAGE_URL_HTTP}${backdrop_path}` : Utils.asset(IMAGES_URL.SHINDIRI);
+        const imageUrl = backdrop_path ? `${URLS_VITE.VITE_TMDB_IMAGE_URL_POSTER}${backdrop_path}` : Utils.asset(IMAGES_URL.SHINDIRI);
 
         this.patch({
             Detail: {
@@ -148,7 +149,6 @@ export default class MovieDetalPage extends Lightning.Component {
 
                 _handleEnter() {
                     return true;
-                    //this._WatchButton._handleEnter();
                 }
             }
         ]

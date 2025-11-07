@@ -47,10 +47,6 @@ export default class Home extends Lightning.Component {
         }
     }
 
-    // _handleHover() {
-    //     Router.focusPage();
-    // }
-
     _active() {
         this._setState('Content');
         Router.setHistory([]);
@@ -59,7 +55,6 @@ export default class Home extends Lightning.Component {
     _focus() {
         this._setState('Content')
     }
-
 
     static _states() {
         return [
@@ -87,6 +82,4 @@ export default class Home extends Lightning.Component {
             }
         ];
     }
-
-
 }

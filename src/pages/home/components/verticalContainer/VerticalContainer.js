@@ -117,7 +117,6 @@ export default class VerticalContainer extends Lightning.Component {
                 this._focusedIndex = items?.length > 0 ? 0 : -1;
             }
 
-            // todo: change to paddingTop
             if (cardType === 'EPG_CARD_ITEM') {
                 this.Items.children[0].patch({
                     flex: {
@@ -125,7 +124,6 @@ export default class VerticalContainer extends Lightning.Component {
                     },
                 });
 
-                //todo: check
                 this._scrollPosition = this._props.paddingTop + this.h || 0;
             }
         }

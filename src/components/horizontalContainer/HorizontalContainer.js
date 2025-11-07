@@ -14,6 +14,7 @@ export default class HorizontalContainer extends Lightning.Component {
         return {
             signals: {
                 changeHeroBackground: true,
+                onCardFocus: true,
             },
             flex: { direction: "row", wrap: true },
             Title: {},
@@ -71,7 +72,6 @@ export default class HorizontalContainer extends Lightning.Component {
     set props(props) {
         const { items, railTitle, ...rest } = props;
         this._props = { ...this._props, ...rest };
-
         const { cardType, targetIndex } = rest;
 
         if (railTitle && railTitle !== "") {
@@ -100,7 +100,7 @@ export default class HorizontalContainer extends Lightning.Component {
         }
 
         this.patch({
-            w: this._props.w,
+            w: this._w,
         });
 
         if (items !== this._props.items) {
@@ -118,23 +118,22 @@ export default class HorizontalContainer extends Lightning.Component {
             } else {
                 this._focusedIndex = items?.length > 0 ? 0 : -1;
             }
-            // todo: change to paddingLeft
+
             if (cardType === "EPG_CARD_ITEM") {
                 this.Items.children[0].patch({
                     flex: {
                         paddingLeft: this._props.paddingLeft,
                     },
                 });
-
-                //todo: check
                 this._scrollPosition = this._props.paddingLeft + this.w || 0;
             }
-            console.log("this._props.paddingLeft", this._props.paddingLeft);
+
         }
         this.stage.update();
-        console.log("this._props.paddingLeft", this._props.paddingLeft);
     }
-
+    _signal(name, ...args) {
+        this.signal(name, ...args);
+    }
     _setScrollPosition(x) {
         this._scrollPosition = x;
         this.Items.smooth = { x: this._scrollPosition };
@@ -151,10 +150,8 @@ export default class HorizontalContainer extends Lightning.Component {
             const containerFinalWidth = this.finalW;
             const elementX = currentFocus.finalX;
             const elementW = currentFocus.finalW;
-            console.log(elementX, -this._scrollPosition);
+
             if (elementX < -this._scrollPosition) {
-                // paddingOffset is used to offset first item in each
-                // column from the start of the container in EPG-s
                 const paddingOffset = currentFocus.flex?._paddingLeft ?? 0;
                 this._scrollPosition = -elementX - paddingOffset;
             } else if (
@@ -192,7 +189,6 @@ export default class HorizontalContainer extends Lightning.Component {
             constructorName === "PosterRailItem" &&
             parentContainer === "VODSection"
         ) {
-            //case for search page
             verticalState = "VODSection";
         }
         if (
