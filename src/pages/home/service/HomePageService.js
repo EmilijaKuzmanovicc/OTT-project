@@ -1,36 +1,52 @@
 import FetchingService from "../../../api/FetchingService";
 import { API_URLS } from "../../../utils/constants/URLs";
 
-class HomePageService extends FetchingService {
-    #loading = false;
-    #homeItems;
 
-    get loading() {
-        return this.#loading;
+class HomePageService extends FetchingService {
+
+    #homeMovies = null;
+    #homeSeries = null;
+
+    get homeMovies() {
+        return this.#homeMovies;
     }
 
-    async fetchHomeData(page = 1) {
-        this.#loading = true;
+    get homeSeries() {
+        return this.#homeSeries;
+    }
+
+    async fetchHomeMoviesData(page = 1, limit = 5) {
         try {
-            const data = await this.#getHomeItems(page);
-            this.#homeItems = data;
-            return data;
+            const data = await this.#getHomeItems(page, API_URLS.GET_MOVIES);
+            const slicedData = data.results.slice(0, limit);
+            this.#homeMovies = slicedData;
+            return slicedData;
         } catch (error) {
             console.error("Error:", error);
             throw error;
-        } finally {
-            this.#loading = false;
         }
     }
 
-    #getHomeItems = async (page = 1) => {
+    async fetchHomeSeriesData(page = 1, limit = 5) {
+        try {
+            const data = await this.#getHomeItems(page, API_URLS.GET_SERIES);
+            const slicedData = data.results.slice(0, limit);
+            this.#homeSeries = slicedData;
+            return this.#homeSeries;
+        } catch (error) {
+            console.error("Error:", error);
+            throw error;
+        }
+    }
+    async #getHomeItems(page = 1, url) {
         return this._request({
-            url: API_URLS.GET_MOVIES,
-            method: "GET",
+            url,
             params: { page },
         });
-    };
+    }
 }
 
 const homePageService = new HomePageService();
+
 export { homePageService as HomePageService };
+

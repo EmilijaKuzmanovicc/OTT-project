@@ -4,7 +4,6 @@ export function getRouteNavbarIndex(route) {
     const indexes = {
         ...ROUTES_INDEX
     };
-
     if (route) {
         return indexes[route] ?? 0;
     }

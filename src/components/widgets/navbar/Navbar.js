@@ -5,13 +5,11 @@ import HorizontalContainer from "../../horizontalContainer/HorizontalContainer";
 import NavbarItemCard from "./components/NavbarItemCard";
 import { NavbarItemsList } from "./constants/NavbarItems";
 import { getRouteNavbarIndex } from "../../../utils/RoutesIndex";
-
-
 export default class Navbar extends Lightning.Component {
     _selectedMenuItem = 0;
-    _index = 0;
-    _newIndex = 0;
     _menuItemRoutes = [];
+    _activeHash = 0;
+
     static _template() {
         return {
             h: 120,
@@ -28,77 +26,70 @@ export default class Navbar extends Lightning.Component {
                 h: 50,
                 x: 125,
                 y: 10,
-                type: HorizontalContainer
-            }
-        }
-
+                type: HorizontalContainer,
+            },
+        };
     }
+
     get _Items() {
-        return this.tag('Items');
+        return this.tag("Items");
+    }
+
+    get _NavbarItemChildren() {
+        return this._Items.Items.children;
     }
 
     _getFocused() {
         return this._Items;
     }
 
+    async _init() {
+        setTimeout(() => {
+            const activeHash = Router.getActiveHash();
+            const focusedId = getRouteNavbarIndex(activeHash);
 
-    async _active() {
-        this.patch({
-            Items: {
-                props: {
-                    items: NavbarItemsList.map((item, i) => ({
-                        type: NavbarItemCard,
-                        props: { name: item.name, selected: i === 0 },
-                    })),
-                }
-            }
-        });
-        this._menuItemRoutes = NavbarItemsList.map((item) =>
+            this._activeHash = this._selectedMenuItem = focusedId;
 
-            item.route
-        );
+            this._menuItemRoutes = NavbarItemsList.map((item) => item.route);
 
-
-
-        this._selectedMenuItem = 0;
-        this._setState('Items');
+            this.patch({
+                Items: {
+                    props: {
+                        items: NavbarItemsList.map((item, i) => ({
+                            type: NavbarItemCard,
+                            props: {
+                                name: item.name,
+                                selected: i === focusedId,
+                                index: i,
+                            },
+                        })),
+                        disableScroll: true,
+                        targetIndex: focusedId,
+                    },
+                },
+            });
+        }, 100);
     }
 
     _setSelected(index) {
         this._selectedMenuItem = index;
-
-        this._Items.children.forEach((item, i) => {
-            item.patch({
-                props: { selected: i === index }
-            });
-        });
-    }
-
-
-
-    _focus() {
-        this._Items.children.forEach((item, i) => {
-            item.patch({
-                props: { selected: i === this._selectedMenuItem }
-            });
+        this._NavbarItemChildren.forEach((item, i) => {
+            item.patch({ props: { selected: i === index } });
         });
     }
 
     $changePage(index) {
         this._setSelected(index);
-        this._index = index;
         const route = this._menuItemRoutes[index];
-        if (route) {
-            Router.navigate(route);
-        }
+        if (route) Router.navigate(route);
+        this.stage.focus = this._Items;
     }
 
     _handleLeft() { return true; }
+    _handleRight() { return true; }
     _handleUp() { return true; }
-
     _handleDown() {
-        Router.focusPage()
-        return false
+        Router.focusPage();
+        return false;
     }
-
-} 
+}

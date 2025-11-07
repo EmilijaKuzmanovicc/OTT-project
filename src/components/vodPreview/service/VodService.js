@@ -1,24 +1,43 @@
 import FetchingService from "../../../api/FetchingService";
-import { VOD_TYPES } from "../../../utils/constants/Constants";
+import { API_URLS } from "../../../utils/constants/URLs";
 
 class VodService extends FetchingService {
-    #emptyState = {
-        contentStripe: undefined,
-        vodStripes: undefined,
-        pointer: 1,
-        stripesFetched: 0,
-        hasMore: true,
-    }
-    #initState = {
-        [VOD_TYPES.MOVIES]: { ...this.#emptyState },
-        [VOD_TYPES.SERIES]: { ...this.#emptyState },
+    #movies = null;
+    #series = null;
+    get movies() {
+        return this.#movies
     }
 
-    #vodType;
+    get series() {
+        return this.#series
+    }
 
-    #state = { ...this.#initState };
-
-    #getCurrentState = () => this.#state[this.#vodType];
+    async getMoviesOnPage(page = 1) {
+        try {
+            const data = await this.#getToWatch(page, API_URLS.NOW_PLAYING_MOVIES);
+            this.#movies = data.results;
+            return this.#movies;
+        } catch (error) {
+            console.error("Error:", error);
+            throw error;
+        }
+    }
+    async getSeriesOnPage(page = 1) {
+        try {
+            const data = await this.#getToWatch(page, API_URLS.ON_THE_AIR_SERIES);
+            this.#series = data.results;
+            return this.#series;
+        } catch (error) {
+            console.error("Error:", error);
+            throw error;
+        }
+    }
+    async #getToWatch(page = 1, url) {
+        return this._request({
+            url,
+            params: { page },
+        });
+    }
 }
 
 const vodService = new VodService();

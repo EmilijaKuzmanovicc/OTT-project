@@ -26,7 +26,7 @@ export default class App extends Router.App {
         collision: true,
         w: 1920,
         h: 1080,
-        zIndex: 5,
+        zIndex: 15,
       },
       color: BRANDING_COLORS.LIGHT_BLACK,
       rect: true,
@@ -50,7 +50,7 @@ export default class App extends Router.App {
         rect: true,
         w: 1920,
         h: 1080,
-        zIndex: 102,
+        zIndex: 20,
         color: BRANDING_COLORS.LIGHTER_BLACK,
         props: {
           xPos: 960,
@@ -59,7 +59,7 @@ export default class App extends Router.App {
       },
       Widgets: {
         Menu: {
-          zIndex: 10,
+          zIndex: 16,
           type: Navbar,
         },
         Dialog: {
@@ -82,7 +82,7 @@ export default class App extends Router.App {
     return this.tag('Widgets.Dialog');
   }
   $setNavbarVisibility(isVisible) {
-    this._Menu.setVisibility = isVisible;
+    this._Menu.visible = isVisible;
   }
 
 

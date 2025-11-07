@@ -12,6 +12,6 @@ export const Direction = {
 
 export const Align = {
     Center: "center",
-    Start: "start",
-    End: "end"
+    Start: "flex-start",
+    End: "flex-end"
 }

@@ -25,4 +25,6 @@ export const API_URLS = {
     GET_SERIES_GENRES_LIST: `/genre/tv/list`,
     GET_SERIES_BY_GENRES: `discover/tv`,
     IMAGES: `/images`,
-}
+    NOW_PLAYING_MOVIES: `/movie/now_playing`,
+    ON_THE_AIR_SERIES: `/tv/on_the_air`,
+} 

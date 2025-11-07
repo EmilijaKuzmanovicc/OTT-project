@@ -1,5 +1,4 @@
-import { api } from "./api";
-
+import { api } from '../api/api.js'
 export default class FetchingService {
     static instance = null;
 
@@ -26,23 +25,22 @@ export default class FetchingService {
                 data,
                 params,
             });
-            this.#loading = false;
             return response.data;
         } catch (error) {
-            this.#loading = false;
             this.#handleError(error);
             throw error;
+        } finally {
+            this.#loading = false;
         }
     }
 
     #handleError(error) {
         if (import.meta.env.MODE === "development") {
-            if (error.response) {
-                console.error("Status:", error.response.status);
-                console.error("Data:", error.response.data);
-            } else {
-                console.error("Error Message:", error.message);
-            }
+            console.error("API Error:", {
+                status: error.response?.status,
+                data: error.response?.data,
+                message: error.message,
+            });
         }
     }
 }

@@ -1,10 +1,10 @@
+import { series } from "../../utils/constants/Data";
 import ContentSection from "./components/ContentSection";
 import Channels from "./components/TopChannels";
 import { Router, Lightning } from "@lightningjs/sdk";
 export default class Home extends Lightning.Component {
     _props = {
         homeData: null,
-        railData: [],
     }
     static _template() {
         return {
@@ -34,19 +34,26 @@ export default class Home extends Lightning.Component {
     }
 
     set props(props) {
-
         this._props = { ...this._props, ...props };
-        const { homeData, railData } = this._props;
+        const { movieData, seriesData } = this._props;
 
-
-
+        if (movieData) {
+            this._Content.patch({
+                visible: true,
+                props: {
+                    homeData: { movieData: movieData, seriesData: seriesData },
+                },
+            });
+        }
     }
-    _handleHover() {
-        Router.focusPage();
-    }
+
+    // _handleHover() {
+    //     Router.focusPage();
+    // }
 
     _active() {
-        this._setState('Content')
+        this._setState('Content');
+        Router.setHistory([]);
     }
 
     _focus() {
@@ -68,10 +75,6 @@ export default class Home extends Lightning.Component {
                     Router.focusWidget('Menu');
                     return true;
                 }
-
-
-
-
             },
             class TopChannels extends this {
                 _getFocused() {

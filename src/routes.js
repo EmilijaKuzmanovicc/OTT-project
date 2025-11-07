@@ -1,27 +1,42 @@
 import Splash from "./components/splashPage/Splash";
 import VodPreview from "./components/vodPreview/VodPreview";
 import onVod from "./components/vodPreview/provider/onVod";
+import MovieDetalPage from "./pages/detailPages/movieDetailPage/MovieDetailPage";
+import onMovieDetail from "./pages/detailPages/movieDetailPage/provider/onMovieDetail";
+import SeriesDetalPage from "./pages/detailPages/seriesDetailPage/SeriesDetailPage";
+import onSeriesDetail from "./pages/detailPages/seriesDetailPage/provider/onSeriesDetail";
 import Home from "./pages/home/Home";
-import home from "./pages/home/provider/home";
+import onHome from "./pages/home/provider/onHome";
+import { ROUTES_PATHS } from "./utils/constants/Constants";
 
 export default {
-    root: 'splash',
+    root: ROUTES_PATHS.SPLASH,
     routes: [
         {
-            path: 'splash',
+            path: ROUTES_PATHS.SPLASH,
             component: Splash
         },
         {
-            path: 'home',
+            path: ROUTES_PATHS.HOME,
             component: Home,
             widgets: ['Menu'],
-            on: home,
+            on: onHome,
         },
         {
-            path: 'vod/:vodType',
+            path: ROUTES_PATHS.VOD,
             component: VodPreview,
-            widget: ['Menu'],
+            widgets: ['Menu'],
             on: onVod
+        },
+        {
+            path: ROUTES_PATHS.MOVIE_DETAILS,
+            component: MovieDetalPage,
+            on: onMovieDetail
+        },
+        {
+            path: ROUTES_PATHS.SERIES_DETAILS,
+            component: SeriesDetalPage,
+            on: onSeriesDetail
         }
     ]
 }

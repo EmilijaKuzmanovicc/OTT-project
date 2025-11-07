@@ -1,10 +1,12 @@
 import { Lightning, Router } from "@lightningjs/sdk";
 import HorizontalContainer from "../../../components/horizontalContainer/HorizontalContainer";
-import { movies, series } from "../../../utils/constants/Data";
 import CardItem from "../../../components/cardItem/CardItem";
-import { LiveButton } from "./LiveButton";
+import Button from "../../../components/button/Button";
 
 export default class ContentSection extends Lightning.Component {
+    _props = {
+        homeData: []
+    }
     static _template() {
         return {
             MoviesSection: {
@@ -20,7 +22,7 @@ export default class ContentSection extends Lightning.Component {
             },
             LiveButton: {
                 y: 846,
-                type: LiveButton,
+                type: Button,
             }
         }
     }
@@ -36,47 +38,47 @@ export default class ContentSection extends Lightning.Component {
     get _LiveButton() {
         return this.tag('LiveButton')
     }
+    set props(props) {
+        this._props = { ...this._props, ...props };
+        const { homeData } = this._props
 
-    _init() {
         this.patch({
             MoviesSection: {
                 props: {
-                    items: movies.map((item) => ({
+                    items: homeData.movieData.slicedData.map((item) => ({
                         w: 241,
                         h: 359,
                         type: CardItem,
-                        itemData: item,
+                        props: { ...item, railType: homeData.movieData.railData },
                     })),
-                    railTitle: "movies"
+                    railTitle: homeData.movieData.railData,
+                    disableScroll: true,
+
                 }
             },
             SeriesSection: {
                 props: {
-                    items: series.map((item) => ({
+                    items: homeData.seriesData.slicedData.map((item) => ({
                         w: 241,
                         h: 359,
                         type: CardItem,
-                        itemData: item,
+                        props: { ...item, railType: homeData.seriesData.railData },
                     })),
-                    railTitle: "series"
+                    railTitle: homeData.seriesData.railData,
+                    disableScroll: true,
                 }
+            },
+            LiveButton: {
+                w: 352,
+                h: 67,
+                props: { fontSize: 24, text: "GO TO LIVE PLAYER", letterSpacing: 2 }
+
             }
         });
     }
 
     _active() {
         this._setState('MoviesSection')
-    }
-
-    _setupSection(section, items, title) {
-        section.props = {
-            items: items.map((item) => ({
-                w: 241,
-                h: 359,
-                type: CardItem, itemData: item,
-            })),
-            railTitle: title
-        };
     }
 
     static _states() {
