@@ -57,7 +57,8 @@ export default class VodPreview extends Lightning.Component {
                     type: HorizontalContainer,
 
                 }
-            }
+            },
+
         };
     }
 
@@ -110,6 +111,11 @@ export default class VodPreview extends Lightning.Component {
                 disableScroll: false,
 
                 paddingLeft: 20
+            }
+        });
+        this.patch({
+            signals: {
+                onCardFocus: true,
             }
         });
 

@@ -121,7 +121,7 @@ export default class SeriesDetalPage extends Lightning.Component {
                     return this._BackButton;
                 }
 
-                _handleRight() {
+                _handleDown() {
                     this._setState('WatchFocused');
                 }
 
@@ -145,7 +145,7 @@ export default class SeriesDetalPage extends Lightning.Component {
                     return this._WatchButton;
                 }
 
-                _handleLeft() {
+                _handleUp() {
                     this._setState('BackFocused');
                     return true;
                 }

@@ -1,6 +1,6 @@
 import { Lightning } from '@lightningjs/sdk';
-import { BRANDING_COLORS } from '../../../../utils/constants/Colors';
-import { Align, Fonts } from '../../../../utils/constants/ConstantsForStyle';
+import { BRANDING_COLORS } from '../../../utils/constants/Colors';
+import { Align, Fonts } from '../../../utils/constants/ConstantsForStyle';
 
 export default class VerticalItem extends Lightning.Component {
     static _template() {

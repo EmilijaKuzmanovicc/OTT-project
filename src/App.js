@@ -62,12 +62,6 @@ export default class App extends Router.App {
           zIndex: 16,
           type: Navbar,
         },
-        Dialog: {
-          visible: false,
-          type: Dialog,
-          zIndex: 10,
-        },
-
       }
     }
   }
@@ -81,11 +75,6 @@ export default class App extends Router.App {
   get _Dialog() {
     return this.tag('Widgets.Dialog');
   }
-  $setNavbarVisibility(isVisible) {
-    this._Menu.visible = isVisible;
-  }
-
-
   _setup() {
     Router.startRouter(
       {
@@ -94,53 +83,6 @@ export default class App extends Router.App {
       },
       this
     );
-
-    window.addEventListener('online', () => this.handleOnline());
-    window.addEventListener('offline', () => this.handleOffline());
-
-    this.checkNetworkStatusOnline(navigator.onLine);
-  }
-  checkNetworkStatusOnline(isOnline) {
-    if (isOnline) {
-      this.handleOnline();
-    } else {
-      this.handleOffline();
-    }
-  }
-  handleOnline() {
-    if (wasOffline) {
-      VideoPlayer.play();
-      const networkDialog = this._Dialog;
-      networkDialog.close();
-      wasOffline = false;
-    }
-  }
-
-  handleOffline() {
-    VideoPlayer.pause();
-    const networkDialog = this._Dialog;
-    networkDialog.open({
-      message: 'Problem with Network?',
-      actions: [
-        {
-          label: 'Retry',
-          action: () => {
-            if (navigator.onLine) {
-              networkDialog.close();
-              wasOffline = true;
-              this.handleOnline();
-            }
-          },
-        },
-        {
-          label: 'Exit App',
-          action: () => {
-            this.application.closeApp();
-          },
-        },
-      ],
-    });
-    wasOffline = true;
   }
 }
 

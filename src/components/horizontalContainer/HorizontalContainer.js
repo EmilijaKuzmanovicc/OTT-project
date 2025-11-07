@@ -14,8 +14,11 @@ export default class HorizontalContainer extends Lightning.Component {
         return {
             signals: {
                 changeHeroBackground: true,
-                onCardFocus: true,
+                onCardFocus: "_onCardFocus",
+
             },
+
+            passSignals: { onCardFocus: true, },
             flex: { direction: "row", wrap: true },
             Title: {},
             Items: {
@@ -29,6 +32,10 @@ export default class HorizontalContainer extends Lightning.Component {
     changeHeroBackground(id, backdrop_path) {
         this.signal("changeHeroBackground", id, backdrop_path);
     }
+
+    // onCardFocus(name, overview, src) {
+    //     this.signal('signalCardFocus', name, overview, src);
+    // }
     get Items() {
         return this.tag("Items");
     }
@@ -57,6 +64,8 @@ export default class HorizontalContainer extends Lightning.Component {
         });
         this.stage.update();
     }
+
+
 
     _setFocusedIndex(newIndex) {
         this._focusedIndex = Clamp(newIndex, 0, this._props.items.length - 1);

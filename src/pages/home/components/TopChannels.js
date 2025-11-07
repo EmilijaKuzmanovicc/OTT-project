@@ -1,8 +1,8 @@
 import { Lightning } from "@lightningjs/sdk";
 import { popularChannels } from "../../../utils/constants/PopularChannels";
 import { BRANDING_COLORS } from "../../../utils/constants/Colors";
-import VerticalContainer from "./verticalContainer/VerticalContainer";
-import VerticalItem from "./verticalContainer/VerticalItem";
+import VerticalContainer from "../../../components/verticalContainer/VerticalContainer";
+import VerticalItem from "./ChannelItem";
 import { Align, Direction } from "../../../utils/constants/ConstantsForStyle";
 
 export default class TopChannels extends Lightning.Component {

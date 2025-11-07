@@ -80,6 +80,8 @@ export default class CardItem extends Lightning.Component {
             Label: { text: { textColor: BRANDING_COLORS.WHITE } }
         })
         this._focusTimeout = setTimeout(() => {
+
+            // this.signal('onCardFocus', this._Label.text.text, this._overview, this._backdrop_path);
             this.fireAncestors("$onCardFocus", this._Label.text.text, this._overview, this._backdrop_path);
         }, 1000);
     }
