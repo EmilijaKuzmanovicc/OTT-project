@@ -82,4 +82,20 @@ export default class Home extends Lightning.Component {
             }
         ];
     }
+    _handleBack(e) {
+        if (Router.isNavigating()) {
+            return;
+        }
+        e.preventDefault();
+
+        const routerHistory = Router.getHistory().filter(
+            history => history.hash != 'splash' && history.hash != 'cmp'
+        )
+        if (routerHistory.length) {
+            Router.back();
+        }
+        else {
+            Router.navigate('home')
+        }
+    }
 }

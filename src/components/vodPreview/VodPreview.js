@@ -3,6 +3,8 @@ import { BRANDING_COLORS } from "../../utils/constants/Colors";
 import CardItem from "../cardItem/CardItem";
 import HorizontalContainer from "../horizontalContainer/HorizontalContainer";
 import { Fonts } from "../../utils/constants/ConstantsForStyle";
+import { VOD_TYPES } from "../../utils/constants/Constants";
+import { URLS_VITE } from "../../utils/constants/env";
 import { IMAGES_URL } from "../../utils/constants/URLs";
 
 export default class VodPreview extends Lightning.Component {
@@ -12,10 +14,7 @@ export default class VodPreview extends Lightning.Component {
     static _template() {
         return {
             w: 1920,
-            Background: {
-                w: 1920,
-                h: 1080,
-            },
+            Background: { w: 1920, h: 1080 },
             Layout: {
                 rect: true,
                 x: 0,
@@ -36,53 +35,39 @@ export default class VodPreview extends Lightning.Component {
                     color: BRANDING_COLORS.WHITE
                 },
                 Overview: {
-                    y: 60,
+                    y: 80,
                     w: 698,
                     text: {
                         FontFace: Fonts.SemiBold,
                         letterSpacing: 2,
                         fontSize: 22,
-                        color: BRANDING_COLORS.WHITE
+                        color: BRANDING_COLORS.WHITE,
+                        maxLines: 10,
+                        maxLinesSuffix: "...",
                     }
                 },
             },
-
             VodContainer: {
+                signals: { changeHeroBackground: true },
                 y: 670,
-                x: 20,
+                x: 35,
                 h: 370,
-                w: 1920,
                 Column: {
-                    w: 1880,
+                    w: 1860,
                     type: HorizontalContainer,
-
                 }
             },
-
         };
     }
 
-    get _VodContainer() {
-        return this.tag('VodContainer');
-    }
-
-    get _Column() {
-        return this.tag('VodContainer.Column');
-    }
-    get _Content() {
-        return this.tag('Content');
-    }
-    get _Overview() {
-        return this.tag('Content.Overview');
-    }
-
+    get _Background() { return this.tag('Background'); }
+    get _VodContainer() { return this.tag('VodContainer'); }
+    get _Column() { return this.tag('VodContainer.Column'); }
+    get _Content() { return this.tag('Content'); }
+    get _Overview() { return this.tag('Content.Overview'); }
 
     _animateText() {
-
-        if (this._textAnim) {
-            this._textAnim.stop();
-        }
-
+        if (this._textAnim) this._textAnim.stop();
 
         this._textAnim = this._Content.animation({
             duration: 3,
@@ -96,31 +81,40 @@ export default class VodPreview extends Lightning.Component {
         this._textAnim.start();
     }
 
+
     set props(props) {
         const { vodType, data } = props;
         this._props = props;
-        this._Column.patch({
-            props: {
-                items: data.map((item, i) => ({
-                    w: 460,
-                    h: 330,
-                    type: CardItem,
-                    props: { ...item, railType: vodType },
-                })),
-                targetIndex: this._indexSelected,
-                disableScroll: false,
 
-                paddingLeft: 20
-            }
-        });
+        const selectedItem = data[this._indexSelected];
+
+        const selectedName = vodType === VOD_TYPES.MOVIES ? selectedItem.title : selectedItem.name;
+        const imageUrl = selectedItem.backdrop_path
+            ? `${URLS_VITE.VITE_TMDB_IMAGE_URL_POSTER}${selectedItem.backdrop_path}`
+            : Utils.asset(IMAGES_URL.IMAGE_NOT_FOUND);
+
         this.patch({
-            signals: {
-                onCardFocus: true,
+            Background: { src: imageUrl },
+            Content: {
+                text: selectedName,
+                Overview: { text: selectedItem.overview }
+            },
+            VodContainer: {
+                Column: {
+                    props: {
+                        items: data.map((item, i) => ({
+                            w: 460,
+                            h: 330,
+                            type: CardItem,
+                            props: { ...item, railType: vodType, index: i },
+                            passSignals: { changeHeroBackground: true }
+                        })),
+                        targetIndex: this._indexSelected,
+                        disableScroll: false,
+                        paddingLeft: 20
+                    }
+                }
             }
-        });
-
-        this._Content.patch({
-            text: vodType.charAt(0).toUpperCase() + vodType.slice(1)
         });
     }
 
@@ -135,31 +129,42 @@ export default class VodPreview extends Lightning.Component {
         ];
     }
 
-    _getFocused() {
-        return this.tag('Column');
-    }
+    _getFocused() { return this.tag('Column'); }
 
     _handleUp() {
         Router.focusWidget('Menu');
         return true;
     }
-    $onCardFocus(name, overview, src) {
-        this._animateText();
-        this.patch({
-            Background: { src: src },
 
+    changeHeroBackground(name, overview, src) {
+        this._animateText();
+
+        this.patch({
+            Background: { src },
             Content: {
                 text: { text: name },
-                Overview: {
-                    text: overview
-                }
-
-            },
+                Overview: { text: overview }
+            }
         });
     }
-    onItemChange(src) {
-        this.patch({
-            Background: { src: src },
-        });
+
+    $storeSelectedIndex(index) {
+        console.log("index change", index);
+        this._indexSelected = index;
+    }
+
+    _handleBack(e) {
+        if (Router.isNavigating()) return;
+
+        e.preventDefault();
+        const routerHistory = Router.getHistory().filter(
+            history => history.hash !== 'splash' && history.hash !== 'cmp'
+        );
+
+        if (routerHistory.length) {
+            Router.back();
+        } else {
+            Router.navigate('home');
+        }
     }
 }

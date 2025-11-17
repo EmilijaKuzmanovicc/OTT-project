@@ -1,12 +1,11 @@
-import { Router, Utils, VideoPlayer } from '@lightningjs/sdk'
+import { Router, Utils } from '@lightningjs/sdk'
 import { Fonts } from './utils/constants/ConstantsForStyle.js';
 import { IMAGES_URL } from './utils/constants/URLs.js';
 import Navbar from './components/widgets/navbar/Navbar.js';
 import { BRANDING_COLORS } from './utils/constants/Colors.js';
-import Dialog from './components/widgets/dialog/Dialog.js';
 import routes from './routes.js';
 import LoadingComponent from './components/loaderComponent/loaderComponent.js';
-let wasOffline = false;
+
 export default class App extends Router.App {
   static getFonts() {
     return [
@@ -62,7 +61,8 @@ export default class App extends Router.App {
           zIndex: 16,
           type: Navbar,
         },
-      }
+      },
+
     }
   }
 
@@ -72,17 +72,20 @@ export default class App extends Router.App {
   get _Menu() {
     return this.tag("Widgets.Menu");
   }
-  get _Dialog() {
-    return this.tag('Widgets.Dialog');
-  }
+
   _setup() {
     Router.startRouter(
       {
-        ...routes
-        ,
+        ...routes,
+        afterEachRoute: (request) => {
+          this.patch({
+            Widgets: { Menu: { props: { route: request._hash } } },
+          })
+        },
       },
       this
     );
   }
+
 }
 

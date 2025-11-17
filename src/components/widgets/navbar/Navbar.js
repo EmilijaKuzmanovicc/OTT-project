@@ -43,32 +43,39 @@ export default class Navbar extends Lightning.Component {
         return this._Items;
     }
 
-    async _init() {
-        setTimeout(() => {
-            const activeHash = Router.getActiveHash();
-            const focusedId = getRouteNavbarIndex(activeHash);
-
-            this._activeHash = this._selectedMenuItem = focusedId;
-
-            this._menuItemRoutes = NavbarItemsList.map((item) => item.route);
-
-            this.patch({
-                Items: {
-                    props: {
-                        items: NavbarItemsList.map((item, i) => ({
-                            type: NavbarItemCard,
-                            props: {
-                                name: item.name,
-                                selected: i === focusedId,
-                                index: i,
-                            },
-                        })),
-                        disableScroll: true,
-                        targetIndex: focusedId,
-                    },
+    set props(props) {
+        const focusedId = getRouteNavbarIndex(props.route);
+        this._activeHash = this._selectedMenuItem = focusedId;
+        this._menuItemRoutes = NavbarItemsList.map((item) => item.route);
+        this._NavbarItemChildren.forEach((item, i) => {
+            item.patch({
+                props: {
+                    selected: i === focusedId
                 },
+                targetIndex: this._activeHash,
             });
-        }, 100);
+        });
+
+    }
+
+    _init() {
+
+        this.patch({
+            Items: {
+                props: {
+                    items: NavbarItemsList.map((item, i) => ({
+                        type: NavbarItemCard,
+                        props: {
+                            name: item.name,
+                            index: i,
+                        },
+                    })),
+                    disableScroll: true,
+                    targetIndex: this._activeHash,
+                },
+            },
+        });
+
     }
 
     _setSelected(index) {

@@ -14,7 +14,7 @@ export default class CardItem extends Lightning.Component {
             rect: true,
             y: 5,
             x: -6,
-
+            passSignals: { changeHeroBackground: true },
             color: BRANDING_COLORS.TRANSPARENT,
             flex: { direction: Direction.Column, paddingRight: 20 },
             Image: {
@@ -54,12 +54,12 @@ export default class CardItem extends Lightning.Component {
 
     set props(props) {
         this._props = { ...this._props, ...props };
-        const { poster_path, title, overview, name, railType, backdrop_path } = this._props;
+        const { poster_path, title, overview, name, backdrop_path, id } = this._props;
+        console.log("props", this._props);
         const poster = this._w > 250 ? backdrop_path : poster_path;
+        this._id = id;
 
-        const imageUrl = poster
-            ? `${URLS_VITE.VITE_TMDB_IMAGE_URL_POSTER}${poster}`
-            : Utils.asset(IMAGES_URL.IMAGE_NOT_FOUND);
+        const imageUrl = poster ? `${URLS_VITE.VITE_TMDB_IMAGE_URL_POSTER}${poster}` : Utils.asset(IMAGES_URL.IMAGE_NOT_FOUND);
 
         this.patch({
             Image: { src: imageUrl },
@@ -80,9 +80,7 @@ export default class CardItem extends Lightning.Component {
             Label: { text: { textColor: BRANDING_COLORS.WHITE } }
         })
         this._focusTimeout = setTimeout(() => {
-
-            // this.signal('onCardFocus', this._Label.text.text, this._overview, this._backdrop_path);
-            this.fireAncestors("$onCardFocus", this._Label.text.text, this._overview, this._backdrop_path);
+            this.signal('changeHeroBackground', this._Label.text.text, this._overview, this._backdrop_path, this._id);
         }, 1000);
     }
 
@@ -99,7 +97,9 @@ export default class CardItem extends Lightning.Component {
     }
 
     _handleEnter() {
-        const { id, railType } = this._props;
+        const { id, railType, index } = this._props;
+        console.log("index", index);
+        this.fireAncestors('$storeSelectedIndex', index);
         switch (railType.toUpperCase()) {
             case ITEMS_NAME.MOVIES:
                 Router.navigate(`movie-details/${id}`);

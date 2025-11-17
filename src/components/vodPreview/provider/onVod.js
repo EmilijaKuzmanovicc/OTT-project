@@ -19,7 +19,8 @@ export default async function (page, { vodType }) {
     page.props = {
         title: pageTitle,
         vodType,
-        data: data
+        data: data,
+        overview: "Select " + vodType,
     };
 
 }
