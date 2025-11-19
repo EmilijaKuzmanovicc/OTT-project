@@ -149,7 +149,6 @@ export default class VodPreview extends Lightning.Component {
     }
 
     $storeSelectedIndex(index) {
-        console.log("index change", index);
         this._indexSelected = index;
     }
 

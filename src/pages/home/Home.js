@@ -1,4 +1,3 @@
-import { series } from "../../utils/constants/Data";
 import ContentSection from "./components/ContentSection";
 import Channels from "./components/TopChannels";
 import { Router, Lightning } from "@lightningjs/sdk";

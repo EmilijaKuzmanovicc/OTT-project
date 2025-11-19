@@ -13,5 +13,8 @@ export const Direction = {
 export const Align = {
     Center: "center",
     Start: "flex-start",
-    End: "flex-end"
+    End: "flex-end",
+    SpaceBetween: "space-between",
+    Left: "left",
+    Right: "right"
 }

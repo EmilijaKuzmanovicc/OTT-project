@@ -137,6 +137,7 @@ export default class SeriesDetalPage extends Lightning.Component {
 
                         Router.navigate('home');
                     }
+
                 }
             },
 
@@ -147,6 +148,10 @@ export default class SeriesDetalPage extends Lightning.Component {
 
                 _handleUp() {
                     this._setState('BackFocused');
+                    return true;
+                }
+                _handleEnter() {
+                    Router.navigate('player', { videoURL: '', duration: 100, continueTime: 21 });
                     return true;
                 }
             }

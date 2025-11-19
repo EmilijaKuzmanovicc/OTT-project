@@ -55,7 +55,7 @@ export default class CardItem extends Lightning.Component {
     set props(props) {
         this._props = { ...this._props, ...props };
         const { poster_path, title, overview, name, backdrop_path, id } = this._props;
-        console.log("props", this._props);
+
         const poster = this._w > 250 ? backdrop_path : poster_path;
         this._id = id;
 
@@ -98,7 +98,7 @@ export default class CardItem extends Lightning.Component {
 
     _handleEnter() {
         const { id, railType, index } = this._props;
-        console.log("index", index);
+
         this.fireAncestors('$storeSelectedIndex', index);
         switch (railType.toUpperCase()) {
             case ITEMS_NAME.MOVIES:

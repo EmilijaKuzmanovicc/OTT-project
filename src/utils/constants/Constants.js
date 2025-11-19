@@ -30,7 +30,8 @@ export const ROUTES_PATHS = {
     HOME: "home",
     VOD: "vod/:vodType",
     MOVIE_DETAILS: "movie-details/:movieId",
-    SERIES_DETAILS: "series-details/:seriesId"
+    SERIES_DETAILS: "series-details/:seriesId",
+    PLAYER: 'player'
 };
 export const CONTENT_RATING = {
     G: "G",

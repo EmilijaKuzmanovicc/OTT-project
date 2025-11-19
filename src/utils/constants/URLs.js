@@ -1,10 +1,10 @@
 export const IMAGES_URL = {
     BACKGROUND: "../images/backpicture.png",
-    ARENA_LOGO: "../images/Arena_Verlag_Logo.png",
-    RARAMOUNT_LOGO: "../images/Paramount_Network.png",
-    REDE_LOGO: "../images/Rede_Telecine_vertical_logo.png",
-    RTS1_LOGO: "../images/RTS_1_logo_2019.png",
-    SONY_LOGO: "../images/Sony_Movies_Logo.png",
+    ARENA_LOGO: "../images/channels/Arena_Verlag_Logo.png",
+    RARAMOUNT_LOGO: "../images/channels/Paramount_Network.png",
+    REDE_LOGO: "../images/channels/Rede_Telecine_vertical_logo.png",
+    RTS1_LOGO: "../images/channels/RTS_1_logo_2019.png",
+    SONY_LOGO: "../images/channels/Sony_Movies_Logo.png",
     BACK_ICON: "../images/back_icon.png",
     PLAY: "../images/play.png",
     LOGO: "../images/logo.png",
@@ -27,4 +27,12 @@ export const API_URLS = {
     IMAGES: `/images`,
     NOW_PLAYING_MOVIES: `/movie/now_playing`,
     ON_THE_AIR_SERIES: `/tv/on_the_air`,
-} 
+}
+
+export const PLAYER_ICONS = {
+    BACK: "../images/playerIcons/back.svg",
+    FAST_BACKWARD: "../images/playerIcons/fast-backward.svg",
+    FAST_FORWARD: "../images/playerIcons/fast-forward.svg",
+    PAUSE: "../images/playerIcons/pause.svg",
+    PLAY: "../images/playerIcons/play.svg",
+}

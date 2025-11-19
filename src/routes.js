@@ -1,3 +1,4 @@
+import Player from "./components/player/Player";
 import Splash from "./components/splashPage/Splash";
 import VodPreview from "./components/vodPreview/VodPreview";
 import onVod from "./components/vodPreview/provider/onVod";
@@ -37,6 +38,10 @@ export default {
             path: ROUTES_PATHS.SERIES_DETAILS,
             component: SeriesDetalPage,
             on: onSeriesDetail
+        },
+        {
+            path: ROUTES_PATHS.PLAYER,
+            component: Player,
         }
     ]
 }

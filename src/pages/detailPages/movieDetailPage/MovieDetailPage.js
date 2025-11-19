@@ -73,12 +73,13 @@ export default class MovieDetalPage extends Lightning.Component {
             console.warn("No movie details found in props");
             return;
         }
+
         const { genres = [], backdrop_path, release_date, origin_country, adult, vote_average, runtime, poster_path, title, overview } = details;
         const year = release_date.split("-")[0];
         const formattedRating = Number.isInteger(vote_average) ? vote_average : vote_average.toFixed(1);
         const info = `${origin_country} - ${year} - ${(adult ? CONTENT_RATING.PG : CONTENT_RATING.G)} - IMDb: ${formattedRating}`;
         const imageUrl = backdrop_path ? `${URLS_VITE.VITE_TMDB_IMAGE_URL_POSTER}${backdrop_path}` : Utils.asset(IMAGES_URL.SHINDIRI);
-
+        console.log(this._props.details.title);
         this.patch({
             Detail: {
                 MediaHeader: {
@@ -148,6 +149,7 @@ export default class MovieDetalPage extends Lightning.Component {
                 }
 
                 _handleEnter() {
+                    Router.navigate('player', { videoURL: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8', title: this._props.details.title });
                     return true;
                 }
             }
