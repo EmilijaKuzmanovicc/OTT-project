@@ -6,7 +6,7 @@ import { Align } from "../../../utils/constants/ConstantsForStyle";
 export default class PlayerButton extends Lightning.Component {
     static _template() {
         return {
-            w: 70,
+            //w: 70,
             h: 90,
             flex: { alignItems: Align.Center },
             Image: {
@@ -20,16 +20,22 @@ export default class PlayerButton extends Lightning.Component {
     }
     set props(props) {
         this._props = { ...this._props, ...props };
-        const { x, r, visible, image } = this._props;
+        const { x, r, visible, image, onEnter } = this._props;
         this.patch({
+            w: r,
             Image: {
                 x: x,
                 visible: visible,
                 texture: lng.Tools.getSvgTexture(Utils.asset(image), r, r),
             }
         })
+        this._onEnter = onEnter;
     }
-
+    _handleEnter() {
+        if (this._onEnter) {
+            this._onEnter();
+        }
+    }
     _focus() {
         this._Image.color = BRANDING_COLORS.RED
     }

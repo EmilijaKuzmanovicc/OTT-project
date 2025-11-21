@@ -41,7 +41,6 @@ export const loader = (url, videoEl, options = {}) => {
     return new Promise((resolve) => {
         unload(videoEl);
         if (url.includes('m3u8')) {
-            // HLS stream
             player = createPlayer(options);
             player.autoLevelCapping = options.autoLevelCapping || -1;
 
@@ -86,7 +85,6 @@ export const loader = (url, videoEl, options = {}) => {
             player.loadSource(url);
             player.attachMedia(videoEl);
         } else if (url.includes('.mp4')) {
-            // MP4 video
             videoEl.src = url;
             videoEl.load();
             resolve();

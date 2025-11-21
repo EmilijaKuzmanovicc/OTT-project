@@ -4,8 +4,8 @@ import { IMAGES_URL } from './utils/constants/URLs.js';
 import Navbar from './components/widgets/navbar/Navbar.js';
 import { BRANDING_COLORS } from './utils/constants/Colors.js';
 import routes from './routes.js';
-import LoadingComponent from './components/loaderComponent/loaderComponent.js';
 import "@lightningjs/core/inspector";
+import LoadingComponent from './components/loaderComponent/LoaderComponent.js';
 export default class App extends Router.App {
   static getFonts() {
     return [
@@ -57,9 +57,9 @@ export default class App extends Router.App {
       },
       Loading: {
         type: LoadingComponent,
-        rect: true,
-        w: 1920,
-        h: 1080,
+        // rect: true,
+        // w: 1920,
+        // h: 1080,
         zIndex: 20,
         color: BRANDING_COLORS.LIGHTER_BLACK,
         props: {

@@ -35,4 +35,5 @@ export const PLAYER_ICONS = {
     FAST_FORWARD: "../images/playerIcons/fast-forward.svg",
     PAUSE: "../images/playerIcons/pause.svg",
     PLAY: "../images/playerIcons/play.svg",
+    REPEAT: "../images/playerIcons/repeat.svg",
 }

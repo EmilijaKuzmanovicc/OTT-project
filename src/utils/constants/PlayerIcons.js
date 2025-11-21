@@ -16,17 +16,36 @@ export const playerIcons = [
         visible: true,
     },
     {
-        label: "PAUSE",
-        image: PLAYER_ICONS.PAUSE,
+        label: "PLAY_PAUSE",
+        // image: PLAYER_ICONS.PAUSE,
         x: 662,
         r: 90,
         visible: true,
+
     },
     {
         label: "FAST_FORWARD",
         image: PLAYER_ICONS.FAST_FORWARD,
-        x: 730,
+        x: 707,
         r: 66,
         visible: true,
     },
+];
+
+export const endVideoIcons = [
+    {
+        label: "BACK",
+        image: PLAYER_ICONS.BACK,
+        x: 0,
+        r: 66,
+        visible: true,
+    },
+    {
+        label: "REPEAT",
+        image: PLAYER_ICONS.REPEAT,
+        x: 45,
+        r: 66,
+        visible: true,
+
+    }
 ];

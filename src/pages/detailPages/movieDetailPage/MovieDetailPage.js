@@ -79,7 +79,7 @@ export default class MovieDetalPage extends Lightning.Component {
         const formattedRating = Number.isInteger(vote_average) ? vote_average : vote_average.toFixed(1);
         const info = `${origin_country} - ${year} - ${(adult ? CONTENT_RATING.PG : CONTENT_RATING.G)} - IMDb: ${formattedRating}`;
         const imageUrl = backdrop_path ? `${URLS_VITE.VITE_TMDB_IMAGE_URL_POSTER}${backdrop_path}` : Utils.asset(IMAGES_URL.SHINDIRI);
-        console.log(this._props.details.title);
+
         this.patch({
             Detail: {
                 MediaHeader: {
@@ -124,17 +124,7 @@ export default class MovieDetalPage extends Lightning.Component {
                 }
 
                 _handleEnter() {
-                    const router = Router.getHistory().filter(
-                        (history) => history.hash != 'splash' && history.hash != 'cmp'
-                    );
-
-                    if (router.length) {
-                        Router.setHistory([...router]);
-                        Router.back();
-                    } else {
-
-                        Router.navigate('home');
-                    }
+                    _handleBack()
                 }
             },
 
@@ -154,6 +144,23 @@ export default class MovieDetalPage extends Lightning.Component {
                 }
             }
         ]
+    }
+    _handleBack(e) {
+
+        if (Router.isNavigating()) {
+            return;
+        }
+        e.preventDefault();
+
+        const routerHistory = Router.getHistory().filter(
+            history => history.hash != 'splash' && history.hash != 'cmp'
+        )
+        if (routerHistory.length) {
+            Router.back();
+        }
+        else {
+            Router.navigate('home')
+        }
     }
 }
 

@@ -126,18 +126,7 @@ export default class SeriesDetalPage extends Lightning.Component {
                 }
 
                 _handleEnter() {
-                    const router = Router.getHistory().filter(
-                        (history) => history.hash != 'splash' && history.hash != 'cmp'
-                    );
-
-                    if (router.length) {
-                        Router.setHistory([...router]);
-                        Router.back();
-                    } else {
-
-                        Router.navigate('home');
-                    }
-
+                    this._handleBack()
                 }
             },
 
@@ -151,10 +140,27 @@ export default class SeriesDetalPage extends Lightning.Component {
                     return true;
                 }
                 _handleEnter() {
-                    Router.navigate('player', { videoURL: '', duration: 100, continueTime: 21 });
+                    Router.navigate('player', { videoURL: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8', title: this._props.details.name });
                     return true;
                 }
             }
         ]
+    }
+    _handleBack(e) {
+
+        if (Router.isNavigating()) {
+            return;
+        }
+        e.preventDefault();
+
+        const routerHistory = Router.getHistory().filter(
+            history => history.hash != 'splash' && history.hash != 'cmp'
+        )
+        if (routerHistory.length) {
+            Router.back();
+        }
+        else {
+            Router.navigate('home')
+        }
     }
 }

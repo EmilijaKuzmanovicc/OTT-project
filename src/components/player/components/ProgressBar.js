@@ -3,7 +3,7 @@ import { BRANDING_COLORS } from "../../../utils/constants/Colors";
 
 export default class ProgressBar extends Lightning.Component {
     _props = { radius: 6, width: 1404, height: 9, markerRadius: 8 };
-
+    _timer = 0
     static _template() {
         return {
             BackgroundBar: { w: w => w, h: h => h },
@@ -14,13 +14,19 @@ export default class ProgressBar extends Lightning.Component {
                     alignItems: 'center',
                 },
                 h: h => h,
-
                 color: BRANDING_COLORS.RED,
                 Marker: {
-
                     zIndex: 20,
                     visible: false,
-                    texture: null,
+                    texture: lng.Tools.getRoundRect(
+                        24,
+                        24,
+                        12,
+                        3,
+                        BRANDING_COLORS.WHITE,
+                        true,
+                        BRANDING_COLORS.RED
+                    )
                 }
             }
         };
@@ -58,15 +64,24 @@ export default class ProgressBar extends Lightning.Component {
         );
     }
 
-    progress(p) {
-        const width = this._props.width || this.w || 1404;
-        const progressWidth = p * width;
+    progress(p, duration) {
+        this._timer = 0
+        const progressWidth = (p) * (this._props.width || this.w || 1404);
+
 
         this._Progress.setSmooth("w", progressWidth);
 
-        if (this._Marker.visible && this._Marker.texture) {
-            this._Marker.setSmooth("x", progressWidth - this._Marker.w / 2);
-        }
+        this._Progress.texture =
+            lng.Tools.getRoundRect(
+                progressWidth,
+                this._props.height,
+                this._props.radius,
+                0,
+                BRANDING_COLORS.TRANSPARENT,
+                BRANDING_COLORS.RED
+            );
+        this._Marker.setSmooth("x", progressWidth - this._Marker.w / 2 - this._props.markerRadius);
+
     }
 
     _getFocused() {
@@ -76,31 +91,10 @@ export default class ProgressBar extends Lightning.Component {
     _focus() {
         this._updateBackgroundBarTexture(2, BRANDING_COLORS.RED);
         this._Marker.visible = true;
-
-        const size = 16;
-
-
-        this._Marker.texture = lng.Tools.getRoundRect(
-            24,
-            24,
-            12,
-            3,
-            BRANDING_COLORS.WHITE,
-            true,
-            BRANDING_COLORS.RED
-        );
-        this.tag("Progress").w = this.tag("Progress").w || 0;
-        setTimeout(() => {
-            const progressWidth = this._Progress.w;
-            this._Marker.x = progressWidth - size / 2 - 1;
-        }, 0);
     }
-
-
 
     _unfocus() {
         this._updateBackgroundBarTexture(0, BRANDING_COLORS.TRANSPARENT);
         this._Marker.visible = false;
-        this._Marker.texture = null;
     }
 }
