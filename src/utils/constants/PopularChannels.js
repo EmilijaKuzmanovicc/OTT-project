@@ -1,24 +1,24 @@
-import { IMAGES_URL } from "./URLs";
+import { URL_CHANNELS } from "./URLs";
 
 export const popularChannels = [
     {
         name: "TVCine",
-        image: IMAGES_URL.REDE_LOGO,
+        image: URL_CHANNELS.REDE_LOGO,
     },
     {
         name: "Paramount Channel",
-        image: IMAGES_URL.RARAMOUNT_LOGO,
+        image: URL_CHANNELS.RARAMOUNT_LOGO,
     },
     {
         name: "Sony Movies",
-        image: IMAGES_URL.SONY_LOGO,
+        image: URL_CHANNELS.SONY_LOGO,
     },
     {
         name: "RTS 1",
-        image: IMAGES_URL.RTS1_LOGO,
+        image: URL_CHANNELS.RTS1_LOGO,
     },
     {
         name: "Arena",
-        image: IMAGES_URL.ARENA_LOGO,
+        image: URL_CHANNELS.ARENA_LOGO,
     },
 ];

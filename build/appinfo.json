@@ -1,0 +1,13 @@
+{
+  "id": "ema-ott",
+  "version": "1.0.0",
+  "vendor": "ema",
+  "type": "web",
+  "main": "index.html",
+  "title": "ema players",
+  "icon": "icon.png",
+  "largeIcon": "largeIcon.png",
+  "iconColor": "#DF0000",
+  "resolution": "1920x1080",
+  "disableBackHistoryAPI": true
+}

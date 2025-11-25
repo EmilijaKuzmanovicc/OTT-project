@@ -1,26 +1,23 @@
-import { defineConfig, loadEnv } from "vite";
-import legacy from "@vitejs/plugin-legacy";
+
+import { defineConfig, loadEnv } from 'vite';
+import legacy from '@vitejs/plugin-legacy';
 
 export default ({ mode }) => {
-  const outDir = "build";
-  const publicDir = "public";
-  const [buildMode, platform] = mode.split("-");
-  console.log(
-    "🚀 Building the app in mode: ",
-    buildMode,
-    " for platform: ",
-    platform
-  );
+  const outDir = 'build';
+  const publicDir = 'public';
+  const [buildMode, platform] = mode.split('-');
+  console.log('🚀 Building the app in mode: ', buildMode, ' for platform: ', platform);
+  const appEnv = loadEnv(platform, process.cwd(), ['APP_', 'NODE_', 'LNG_', 'VITE_']);
 
   const plugins = [
     legacy({
       renderModernChunks: false,
       targets: ["Chrome >= 53", "not dead"],
-    }),
-  ];
+    })
+  ]
 
   return defineConfig({
-    base: "",
+    base: '',
     publicDir,
     plugins,
     server: {
@@ -30,13 +27,16 @@ export default ({ mode }) => {
     },
     build: {
       outDir,
-      target: "es2015",
+      target: 'es2015',
       emptyOutDir: true,
       minify: false,
-      sourcemap: platform !== "web",
+      sourcemap: platform !== 'web',
     },
     esbuild: {
-      drop: platform === "web" ? ["console"] : [],
+      drop: platform === 'web' ? ['console'] : [],
+    },
+    define: {
+      'process.env': JSON.stringify(appEnv),
     },
   });
 };

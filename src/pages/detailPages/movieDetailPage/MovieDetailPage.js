@@ -124,7 +124,7 @@ export default class MovieDetalPage extends Lightning.Component {
                 }
 
                 _handleEnter() {
-                    _handleBack()
+                    this._handleBack()
                 }
             },
 
@@ -145,21 +145,19 @@ export default class MovieDetalPage extends Lightning.Component {
             }
         ]
     }
-    _handleBack(e) {
-
+    _handleBack() {
         if (Router.isNavigating()) {
             return;
         }
-        e.preventDefault();
 
         const routerHistory = Router.getHistory().filter(
-            history => history.hash != 'splash' && history.hash != 'cmp'
-        )
+            history => history.hash !== 'splash' && history.hash !== 'cmp'
+        );
+
         if (routerHistory.length) {
             Router.back();
-        }
-        else {
-            Router.navigate('home')
+        } else {
+            Router.navigate('home');
         }
     }
 }

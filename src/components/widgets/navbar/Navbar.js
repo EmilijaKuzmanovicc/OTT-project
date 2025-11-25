@@ -39,23 +39,34 @@ export default class Navbar extends Lightning.Component {
         return this._Items.Items.children;
     }
 
-    _getFocused() {
-        return this._Items;
-    }
-
     set props(props) {
         const focusedId = getRouteNavbarIndex(props.route);
         this._activeHash = this._selectedMenuItem = focusedId;
         this._menuItemRoutes = NavbarItemsList.map((item) => item.route);
+        this._setActiveItems(focusedId)
+
+    }
+
+    $changePage(index) {
+        this._setSelected(index);
+        const route = this._menuItemRoutes[index];
+        if (route) Router.navigate(route);
+        this.stage.focus = this._Items;
+    }
+
+    _setActiveItems(focusedId) {
         this._NavbarItemChildren.forEach((item, i) => {
             item.patch({
                 props: {
                     selected: i === focusedId
                 },
-                targetIndex: this._activeHash,
+                targetIndex: focusedId,
             });
         });
+    }
 
+    _getFocused() {
+        return this._Items;
     }
 
     _init() {
@@ -85,13 +96,6 @@ export default class Navbar extends Lightning.Component {
         });
     }
 
-    $changePage(index) {
-        this._setSelected(index);
-        const route = this._menuItemRoutes[index];
-        if (route) Router.navigate(route);
-        this.stage.focus = this._Items;
-    }
-
     _handleLeft() { return true; }
     _handleRight() { return true; }
     _handleUp() { return true; }
@@ -99,4 +103,7 @@ export default class Navbar extends Lightning.Component {
         Router.focusPage();
         return false;
     }
+
+
+
 }

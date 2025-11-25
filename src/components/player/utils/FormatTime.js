@@ -1,6 +1,6 @@
 const floorStringPad = (number) => Math.floor(number).toString().padStart(2, '0');
 
-export const FormatTime = (seconds) => {
+export const formatTime = (seconds) => {
     const hours = floorStringPad(seconds / 3600);
     const minutes = floorStringPad((seconds % 3600) / 60);
     const remainingSeconds = floorStringPad(seconds % 60);

@@ -16,7 +16,8 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "start": "concurrently \"cross-env LNG_LIVE_RELOAD=true LNG_LIVE_RELOAD_PORT=8991 lng dev\" \"vite\""
+    "start": "concurrently \"cross-env LNG_LIVE_RELOAD=true LNG_LIVE_RELOAD_PORT=8991 lng dev\" \"vite\"",
+    "build": "cross-env NODE_OPTIONS=--max-old-space-size=6144 vite build"
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",
