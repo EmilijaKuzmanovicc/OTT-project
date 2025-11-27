@@ -18,6 +18,7 @@ export default class Player extends Lightning.Component {
     _controlsVisible = true;
     _isEnd = false;
     _isPaused = false;
+    _progressBarTimer = null;
     static _template() {
         return {
             x: 0,
@@ -93,12 +94,12 @@ export default class Player extends Lightning.Component {
         return this.tag('ControlsWrapper.Controls')
     }
 
-
     set params({ videoURL, title }) {
         VideoPlayer.open(videoURL);
         this._videoURL = videoURL;
-        this._currentTime = 0;
-        this._focusedIconId = 2;
+
+        this._focusedIconId = this._isEnd ? 1 : 2;
+
         this.$updateControlsIcons()
         this.patch({
             Title: {
@@ -111,16 +112,21 @@ export default class Player extends Lightning.Component {
         this._videoLoad()
     }
 
-
-
-    $videoPlayerTimeUpdate() {
-        if (this._isEnd)
-            this._showControls();
-        this._ProgressBarWraper._updateProgressBar();
+    $videoPlayerEnded() {
+        this.$showControls();
     }
 
-    $videoPlayerEnded() {
-        this._isEnd = true
+    $videoIsEnded() {
+        console.warn("end time in video");
+        this.$setIsEnded(true);
+        this.$updateControlsIcons();
+        this._setState("ControlsIcons");
+        this.$showControls();
+        this._ProgressBarWraper._resetVideo();
+
+    }
+    $defaultFocus() {
+        this._setState("ControlsIcons")
     }
 
     $videoPlayerWaiting() {
@@ -128,35 +134,29 @@ export default class Player extends Lightning.Component {
     }
 
     $videoPlayerCanPlay() {
-        this._showControls();
+        this.$showControls();
         this._hideSpinner();
     }
 
     $setIsPaused(status) {
         this._isPaused = status;
+        this._ProgressBarWraper._isPaused = status;
     }
+
     $setIsEnded(status) {
         this._isEnd = status;
         this._ProgressBarWraper._isEnd = status;
     }
-    _active() {
-        this._setState('ControlsIcons');
-    }
-    _captureKey({ keyCode }) {
-        //lg back 461
-        if (this.visible === false && keyCode !== 461) {
-            this.visible = true;
-            this._showControls();
-            return true;
-        }
-        return false;
+
+    $horizontalContainerIndexChange() {
+        this.$showControls();
     }
 
     $updateControlsIcons() {
         const actionsPlay = [
             () => this._handleBackFromVideo(),
             () => this._handleBackward(),
-            () => this._handleMediaPlayPause(),
+            () => this.$handleMediaPlayPause(),
             () => this._handleForward(),
         ];
         const actionsEnd = [
@@ -190,22 +190,75 @@ export default class Player extends Lightning.Component {
             },
         });
     }
-    _playVideo() {
-        if (this._isEnd) return;
-        this._isPaused = false;
-        VideoPlayer.play();
-        this._updatePausePlayIcon(PLAYER_ICONS.PAUSE);
 
-        // VideoPlayer.play();
-        // this._isPaused = false
-        // this._updatePausePlayIcon(PLAYER_ICONS.PAUSE);
+    $playVideo() {
+        if (this._isEnd) return;
+
+        VideoPlayer.play();
+        this.$setIsPaused(false)
+        this._updatePausePlayIcon(PLAYER_ICONS.PAUSE);
     }
 
-    _pauseVideo() {
+    $pauseVideo() {
         VideoPlayer.pause();
-        this._isPaused = true
+        this.$setIsPaused(true)
         this._updatePausePlayIcon(PLAYER_ICONS.PLAY);
 
+    }
+
+    $showControls() {
+        clearTimeout(this._controlsTimeout);
+        this._controlsVisible = true;
+        this.patch({
+            Title: { smooth: { alpha: 1, duration: 5 } },
+            ControlsWrapper: { smooth: { alpha: 1, duration: 5 } },
+            ProgressBarWraper: { smooth: { alpha: 1, duration: 5 } },
+            Overlay: { smooth: { alpha: 0.3, duration: 5 } },
+        });
+        this._ProgressBarWraper._updateProgressBar();
+
+        if (this._isPaused || this._isEnd) return;
+        if (!this._isEnd) {
+            if (!this._progressBarTimer) {
+                this._progressBarTimer = setInterval(() => {
+                    this._ProgressBarWraper._updateProgressBar();
+
+                }, 100);
+            }
+        }
+
+
+        if (!this._isEnd || !this._isPaused)
+            this._controlsTimeout = setTimeout(() => {
+                this._hideControls();
+            }, 5000);
+    }
+
+    _hideControls() {
+        clearInterval(this._progressBarTimer)
+        this._progressBarTimer = null;
+        this._controlsVisible = false;
+        this.patch({
+            Title: { smooth: { alpha: 0, duration: 0, timingFunction: 'ease-in-out' } },
+            ControlsWrapper: { smooth: { alpha: 0, duration: 0, timingFunction: 'ease-in-out' } },
+            ProgressBarWraper: { smooth: { alpha: 0, duration: 0, timingFunction: 'ease-in-out' } },
+            Overlay: { smooth: { alpha: 0, duration: 0, timingFunction: 'ease-in-out' } },
+        });
+        // this._setState('ControlsIcons');
+    }
+
+
+    _active() {
+        this._setState('ControlsIcons');
+    }
+
+    _captureKey({ keyCode }) {
+        if (this.visible === false && (keyCode !== 461)) {
+            this.visible = true;
+            this.$showControls();
+            return true;
+        }
+        return false;
     }
 
     _hideSpinner() {
@@ -224,35 +277,11 @@ export default class Player extends Lightning.Component {
     }
 
 
-    _showControls() {
-        clearTimeout(this._controlsTimeout);
-        this._controlsVisible = true;
-        this.patch({
-            Title: { smooth: { alpha: 1, duration: 5 } },
-            ControlsWrapper: { smooth: { alpha: 1, duration: 5 } },
-            ProgressBarWraper: { smooth: { alpha: 1, duration: 5 } },
-            Overlay: { smooth: { alpha: 0.3, duration: 5 } },
-        });
-        if (this._isPaused || this._isEnd) return;
-        this._controlsTimeout = setTimeout(() => {
-            this._hideControls();
-        }, 5000);
-    }
-
-    _hideControls() {
-        this._controlsVisible = false;
-        this.patch({
-            Title: { smooth: { alpha: 0, duration: 0, timingFunction: 'ease-in-out' } },
-            ControlsWrapper: { smooth: { alpha: 0, duration: 0, timingFunction: 'ease-in-out' } },
-            ProgressBarWraper: { smooth: { alpha: 0, duration: 0, timingFunction: 'ease-in-out' } },
-            Overlay: { smooth: { alpha: 0, duration: 0, timingFunction: 'ease-in-out' } },
-        });
-
-        // this._setState('ControlsIcons');
-    }
-
 
     _enable() {
+        this._currentTime = 0;
+        this._isEnd = false;
+        this._isPaused = false;
         this.fireAncestors('$punchHole');
         VideoPlayer.position(0, 0);
         VideoPlayer.size(1920, 1080);
@@ -275,7 +304,7 @@ export default class Player extends Lightning.Component {
     _handleBack() {
         if (this._controlsVisible) {
             this._hideControls();
-            this._playVideo();
+            this.$playVideo();
         } else {
             this._handleBackFromVideo()
         }
@@ -298,22 +327,32 @@ export default class Player extends Lightning.Component {
 
 
     _handleMediaPlay() {
-        this._playVideo();
+        this.$playVideo();
     }
 
     _handleMediaPause() {
-        this._pauseVideo();
+        this.$pauseVideo();
     }
 
-    _handleMediaPlayPause() {
+    $handleMediaPlayPause() {
         if (VideoPlayer.playing) {
-            this._pauseVideo();
+            this.$pauseVideo();
         } else {
-            this._playVideo();
+            this.$playVideo();
 
         }
-        this._showControls();
+        this.$showControls();
 
+    }
+
+    $playPauseVideo() {
+        if (this._isPaused) {
+            this.$pauseVideo();
+        } else {
+            this.$playVideo();
+
+        }
+        this.$showControls();
     }
 
     _updatePausePlayIcon(icon) {
@@ -343,10 +382,16 @@ export default class Player extends Lightning.Component {
     _repeatVideo() {
         VideoPlayer.seek(0);
         VideoPlayer.play();
-        this._isEnd = false;
-        this._isPaused = false;
-        // this.$updateControlsIcons();
-        // this._showControls();
+
+        this.$setIsEnded(false);
+        this.$setIsPaused(false);
+        this._focusedIconId = 2;
+
+        this._ProgressBarWraper._newTime = null;
+        this._ProgressBarWraper._isEnd = false;
+
+        this.$updateControlsIcons();
+        this.$showControls();
     }
 
     static _states() {
@@ -356,10 +401,11 @@ export default class Player extends Lightning.Component {
                     return this._Controls;
                 }
                 _handleDown() {
+                    this.$showControls();
                     this._setState('ProgressBarState');
                 }
                 _handleUp() {
-                    this._showControls();
+                    this.$showControls();
                     return false
                 }
             },
@@ -368,10 +414,12 @@ export default class Player extends Lightning.Component {
                     return this._ProgressBarWraper;
                 }
                 _handleUp() {
+                    this.$showControls();
                     this._setState('ControlsIcons');
+                    return false
                 }
                 _handleDown() {
-                    this._showControls();
+                    this.$showControls();
                     return false;
                 }
             }

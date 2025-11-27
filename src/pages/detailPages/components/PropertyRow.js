@@ -20,7 +20,7 @@ export default class PropertyRow extends Lightning.Component {
                 Elements: {
                     text: {
                         lineHeight: 22,
-                        fontFace: Fonts.Regular,
+                        fontFace: Fonts.Inter,
                         fontSize: 22,
                         textColor: BRANDING_COLORS.WHITE,
                     }
@@ -29,7 +29,7 @@ export default class PropertyRow extends Lightning.Component {
             NewLine: {
                 text: {
                     lineHeight: 22,
-                    fontFace: Fonts.Regular,
+                    fontFace: Fonts.Inter,
                     fontSize: 22,
                     textColor: BRANDING_COLORS.WHITE,
                 }

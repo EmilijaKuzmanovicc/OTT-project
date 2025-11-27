@@ -11,7 +11,8 @@ export default class ProgressBar extends Lightning.Component {
     _numOfTriggers = 0;
     _speedUpTimer = null;
     _direction = null;
-
+    _isEnd = false;
+    _isPaused = false;
     static _template() {
         return {
             CurrentTime: {
@@ -20,6 +21,7 @@ export default class ProgressBar extends Lightning.Component {
                 rect: true,
                 color: BRANDING_COLORS.WHITE,
                 text: {
+                    text: "00:00",
                     fontFace: Fonts.InterBold,
                     fontSize: 26,
                     textColor: BRANDING_COLORS.WHITE,
@@ -38,7 +40,7 @@ export default class ProgressBar extends Lightning.Component {
                     color: BRANDING_COLORS.RED,
                     Marker: {
                         zIndex: 20,
-                        visible: true,
+                        visible: false,
                         texture: lng.Tools.getRoundRect(
                             24, 24, 12, 3,
                             BRANDING_COLORS.WHITE,
@@ -52,6 +54,7 @@ export default class ProgressBar extends Lightning.Component {
                 w: 119,
                 h: 31,
                 text: {
+                    text: "00:00",
                     fontFace: Fonts.InterBold,
                     fontSize: 26,
                     textColor: BRANDING_COLORS.WHITE,
@@ -78,8 +81,8 @@ export default class ProgressBar extends Lightning.Component {
         const h = this._props.height;
         const radius = this._props.radius;
         this._BackgroundBar.texture = lng.Tools.getRoundRect(
-            w,
-            h,
+            w - 2,
+            h + 1,
             radius,
             strokeWidth,
             strokeColor,
@@ -87,7 +90,7 @@ export default class ProgressBar extends Lightning.Component {
         );
     }
 
-    progress(p) {
+    _progress(p) {
         const progressWidth = p * this._props.width;
         this._Progress.setSmooth("w", progressWidth);
         this._Progress.texture = lng.Tools.getRoundRect(
@@ -101,7 +104,7 @@ export default class ProgressBar extends Lightning.Component {
         this._Marker.setSmooth("x", progressWidth - this._Marker.w / 2 - this._props.markerRadius);
     }
 
-    _getFocused() { return this; }
+    // _getFocused() { return this; }
 
     _focus() {
         this._updateBackgroundBarTexture(2, BRANDING_COLORS.RED);
@@ -116,23 +119,21 @@ export default class ProgressBar extends Lightning.Component {
     _updateProgressBar() {
         const time = this._newTime != null ? this._newTime : VideoPlayer.currentTime;
         this._CurrentTime.text = formatTime(time);
-        if (VideoPlayer.duration - time < 1) {
-            this.fireAncestors("$setIsEnded", true)
-            this.fireAncestors("$updateControlsIcons");
+        if (Math.floor(time) === Math.floor(VideoPlayer.duration)) {
+            if (!this._isEnd) {
+                this.fireAncestors("$videoIsEnded")
+            }
         }
         else {
             if (this._isEnd) {
-                this.fireAncestors("$setIsEnded", false)
+                this.fireAncestors("$setIsEnded", false);
                 this.fireAncestors("$updateControlsIcons");
+                this.fireAncestors("$playPauseVideo")
             }
-
-
-            // this.fireAncestors("$updateControlsIcons");
         }
-
-        if (VideoPlayer.duration > 0) this.progress(time / VideoPlayer.duration);
+        if (time / VideoPlayer.duration > 0)
+            this._progress(time / VideoPlayer.duration);
     }
-
 
     _handleRight() {
         if (this._direction !== 'right') {
@@ -146,7 +147,8 @@ export default class ProgressBar extends Lightning.Component {
         }
         if (this._newTime == null) this._newTime = VideoPlayer.currentTime;
         this._newTime = computeSeekTime(5 + this._numOfTriggers, this._newTime);
-        this._updateProgressBar();
+        //this._updateProgressBar();
+        this.fireAncestors("$showControls");
     }
 
     _handleLeft() {
@@ -161,20 +163,20 @@ export default class ProgressBar extends Lightning.Component {
         }
         if (this._newTime == null) this._newTime = VideoPlayer.currentTime;
         this._newTime = computeSeekTime(-5 - this._numOfTriggers, this._newTime);
-        this._updateProgressBar();
+        // this._updateProgressBar();
+        this.fireAncestors("$showControls");
+
     }
 
     _handleRightRelease() {
-        clearInterval(this._speedUpTimer);
-        this._speedUpTimer = null;
-        this._numOfTriggers = 0;
-        if (this._newTime !== null) {
-            VideoPlayer.seek(this._newTime);
-            this._newTime = null;
-        }
+        this._resetVideo();
     }
 
     _handleLeftRelease() {
+        this._resetVideo();
+    }
+
+    _resetVideo() {
         clearInterval(this._speedUpTimer);
         this._speedUpTimer = null;
         this._numOfTriggers = 0;

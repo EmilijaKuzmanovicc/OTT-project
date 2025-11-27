@@ -244,6 +244,7 @@ export default class HorizontalContainer extends Lightning.Component {
                 this._focusedIndex,
                 this._scrollPosition
             );
+
         } else {
             return false;
         }

@@ -5,4 +5,5 @@ releases
 .tmp
 env.js
 .env
+.vscode
 build
