@@ -102,7 +102,7 @@ export default class SeriesDetalPage extends Lightning.Component {
                 }
             },
             Background: { src: imageUrl },
-            BackButton: { props: { src: IMAGES_URL.BACK_ICON, size: 48 } }
+            BackButton: { props: { src: IMAGES_URL.BACK_ICON, size: 48, onEnter: this._handleBack.bind(this) } }
         });
     }
 
@@ -146,12 +146,10 @@ export default class SeriesDetalPage extends Lightning.Component {
             }
         ]
     }
-    _handleBack(e) {
-
+    _handleBack() {
         if (Router.isNavigating()) {
             return;
         }
-        e.preventDefault();
 
         const routerHistory = Router.getHistory().filter(
             history => history.hash != 'splash' && history.hash != 'cmp'

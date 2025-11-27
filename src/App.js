@@ -6,6 +6,7 @@ import { BRANDING_COLORS } from './utils/constants/Colors.js';
 import routes from './routes.js';
 import "@lightningjs/core/inspector";
 import LoadingComponent from './components/loaderComponent/LoaderComponent.js';
+import { getDeviceType } from './utils/device/device.js';
 export default class App extends Router.App {
   static getFonts() {
     return [
@@ -115,6 +116,30 @@ export default class App extends Router.App {
       this
     );
   }
+
+  $appClose() {
+    const device = getDeviceType();
+
+    switch (device) {
+      case 'hisense':
+        this.application.closeApp();
+        break;
+      case 'tizen':
+        if (window.tizen) {
+          window.tizen.application.getCurrentApplication().exit();
+        }
+        break;
+      case 'webos':
+        if (window.webos) {
+          window.close();
+        }
+        break;
+      default:
+        window.close();
+        break;
+    }
+  }
+
 
 }
 

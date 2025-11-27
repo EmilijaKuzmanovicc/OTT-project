@@ -1,8 +1,8 @@
 export const IMAGES_URL = {
     BACKGROUND: "images/backpicture.png",
 
-    BACK_ICON: "static/images/back_icon.png",
-    PLAY: "static/images/play.png",
+    BACK_ICON: "images/back_icon.png",
+    PLAY: "images/play.png",
     LOGO: "images/logo.png",
     IMAGE_NOT_FOUND: "images/no_poster.png",
     SHINDIRI: "images/shindiri.png",
@@ -35,10 +35,10 @@ export const PLAYER_ICONS = {
 }
 
 export const URL_CHANNELS = {
-    ARENA_LOGO: "static/images/channels/Arena_Verlag_Logo.png",
-    RARAMOUNT_LOGO: "static/images/channels/Paramount_Network.png",
-    REDE_LOGO: "static/images/channels/Rede_Telecine_vertical_logo.png",
-    RTS1_LOGO: "static/images/channels/RTS_1_logo_2019.png",
-    SONY_LOGO: "static/images/channels/Sony_Movies_Logo.png",
+    ARENA_LOGO: "images/channels/Arena_Verlag_Logo.png",
+    RARAMOUNT_LOGO: "images/channels/Paramount_Network.png",
+    REDE_LOGO: "images/channels/Rede_Telecine_vertical_logo.png",
+    RTS1_LOGO: "images/channels/RTS_1_logo_2019.png",
+    SONY_LOGO: "images/channels/Sony_Movies_Logo.png",
 
 }

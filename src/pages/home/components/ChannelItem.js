@@ -1,4 +1,4 @@
-import { Lightning } from '@lightningjs/sdk';
+import { Lightning, Utils } from '@lightningjs/sdk';
 import { BRANDING_COLORS } from '../../../utils/constants/Colors';
 import { Align, Fonts } from '../../../utils/constants/ConstantsForStyle';
 
@@ -60,7 +60,15 @@ export default class VerticalItem extends Lightning.Component {
     }
     set props(data) {
         this.patch({
-            ImageWrapper: { Image: { src: data.image }, },
+            ImageWrapper: {
+                Image: {
+                    texture: lng.Tools.getSvgTexture(
+                        Utils.asset(data.image),
+                        70,
+                        70
+                    ),
+                },
+            },
             Text: { text: { text: data.name } },
         });
     }

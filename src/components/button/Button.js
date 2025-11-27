@@ -1,4 +1,4 @@
-import { Lightning } from "@lightningjs/sdk";
+import { Lightning, Utils } from "@lightningjs/sdk";
 import { BRANDING_COLORS } from "../../utils/constants/Colors";
 import { Align, Direction, Fonts } from "../../utils/constants/ConstantsForStyle";
 
@@ -46,13 +46,12 @@ export default class Button extends Lightning.Component {
     }
     set props(props) {
         this._props = { ...this._props, ...props }
-        const { src, text, color, radius, size, font, letterSpacing } = this._props;
+        const { src, text, color, radius, size, font, letterSpacing, onEnter } = this._props;
         const radiusValue = radius ?? 35;
         const fontValue = font ?? 20;
         const letterSpacingValue = letterSpacing ?? 1;
         const hasIcon = !!src;
         const hasText = !!text;
-
         this.patch({
             Background: {
                 shader: {
@@ -64,7 +63,7 @@ export default class Button extends Lightning.Component {
                     visible: hasIcon,
                     w: size,
                     h: size,
-                    src: src
+                    texture: lng.Tools.getSvgTexture(Utils.asset(src), fontValue, fontValue)
                 },
                 Text: {
                     visible: hasText,
@@ -91,7 +90,12 @@ export default class Button extends Lightning.Component {
         });
     }
 
-    // _handleEnter() {
-    //     this.fireAncestors("$onButtonEnter", this.type);
-    // }
+    _handleEnter() {
+        console.log("enter");
+
+        if (this._props.onEnter) {
+            this._props.onEnter();
+        }
+
+    }
 }

@@ -253,7 +253,9 @@ export default class Player extends Lightning.Component {
     }
 
     _captureKey({ keyCode }) {
-        if (this.visible === false && (keyCode !== 461)) {
+
+        console.log("key kode ", { keyCode });
+        if (this.visible === false && window.keyCode[keyCode] === 'Back') {
             this.visible = true;
             this.$showControls();
             return true;
@@ -301,7 +303,7 @@ export default class Player extends Lightning.Component {
         this._ProgressBarWraper._currentTime = VideoPlayer.currentTime;
         this._ProgressBarWraper._CurrentTime.text = formatTime(this._currentTime);
     }
-    _handleBack() {
+    _handleBack(e) {
         if (this._controlsVisible) {
             this._hideControls();
             this.$playVideo();

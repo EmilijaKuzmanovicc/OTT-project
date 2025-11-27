@@ -3,7 +3,7 @@
     "enablePointer": true,
     "stage": {
       "clearColor": "0x00000000",
-      "useImageWorker": false,
+      "useImageWorker": true,
       "w": 1920,
       "h": 1080,
       "precision": 1,

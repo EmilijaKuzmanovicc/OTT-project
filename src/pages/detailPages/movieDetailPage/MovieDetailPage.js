@@ -100,7 +100,7 @@ export default class MovieDetalPage extends Lightning.Component {
                 }
             },
             Background: { src: imageUrl },
-            BackButton: { props: { src: IMAGES_URL.BACK_ICON, size: 48 } }
+            BackButton: { props: { src: IMAGES_URL.BACK_ICON, size: 48, onEnter: this._handleBack.bind(this) } }
         });
     }
 
