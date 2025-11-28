@@ -1,12 +1,13 @@
 export const IMAGES_URL = {
-    BACKGROUND: "images/backpicture.png",
+    // BACKGROUND: "images/full_background.png",
+    BACKGROUND: "images/backpicture.jpg",
 
     BACK_ICON: "images/back_icon.png",
     PLAY: "images/play.png",
     LOGO: "images/logo.png",
     IMAGE_NOT_FOUND: "images/no_poster.png",
     SHINDIRI: "images/shindiri.png",
-    BACKGROUND_SHINDIRI: "images/backpicture.jpg",
+    BACKGROUND_SHINDIRI: "images/full_background.png",
     LOADER: "images/spinner.svg",
 }
 

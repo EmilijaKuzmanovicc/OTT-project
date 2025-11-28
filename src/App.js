@@ -19,49 +19,22 @@ export default class App extends Router.App {
 
   static _template() {
     return {
-      ...super._template(),
       w: 1920,
       h: 1080,
+      rect: true,
+      color: BRANDING_COLORS.BLACK_TRANSPARENT,
+      Background: {
+        w: 1920,
+        h: 1080,
+        src: Utils.asset(IMAGES_URL.BACKGROUND_SHINDIRI),
+      },
       Pages: {
         collision: true,
         w: 1920,
         h: 1080,
-        zIndex: 15,
-      },
-      Background: {
-        rect: true,
-        x: 0,
-        y: 0,
-        w: 1920,
-        h: 1080,
-        color: BRANDING_COLORS.LIGHT_BLACK,
-        zIndex: 0,
-
-        Image: {
-          x: 776,
-          w: 1144,
-          h: 1080,
-          src: Utils.asset(IMAGES_URL.BACKGROUND_SHINDIRI),
-          mountX: 0,
-          mountY: 0,
-          zIndex: 1,
-        },
-        Layout: {
-          rect: true,
-          x: 0,
-          y: 0,
-          w: 1920,
-          h: 1080,
-          color: BRANDING_COLORS.LIGHTER_BLACK,
-          zIndex: 2,
-        },
       },
       Loading: {
         type: LoadingComponent,
-        // rect: true,
-        // w: 1920,
-        // h: 1080,
-        zIndex: 20,
         color: BRANDING_COLORS.LIGHTER_BLACK,
         props: {
           xPos: 960,
@@ -70,11 +43,9 @@ export default class App extends Router.App {
       },
       Widgets: {
         Menu: {
-          zIndex: 17,
           type: Navbar,
         },
       },
-
     }
   }
 

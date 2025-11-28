@@ -8,30 +8,35 @@ import MediaInformations from '../components/MediaInformations';
 import { BRANDING_COLORS } from '../../../utils/constants/Colors';
 import { URLS_VITE } from '../../../utils/constants/env';
 
+const states = ['BackButton', "WatchButton"];
 export default class MovieDetalPage extends Lightning.Component {
 
     static _template() {
         return {
+            collision: true,
             w: 1920,
             h: 1080,
             Background: {
                 w: 1920,
                 h: 1080,
+                Layout: {
+                    rect: true,
+                    x: 0,
+                    y: 0,
+                    w: 1920,
+                    h: 1080,
+                    color: BRANDING_COLORS.BLACK_TRANSPARENT,
+                },
             },
-            Layout: {
-                rect: true,
-                x: 0,
-                y: 0,
-                w: 1920,
-                h: 1080,
-                color: BRANDING_COLORS.BLACK_TRANSPARENT,
-            },
+
+
             BackButton: {
+                collision: true,
                 x: 69,
                 y: 65,
                 w: 112,
                 h: 64,
-                type: Button
+                type: Button,
             },
             Detail:
             {
@@ -65,6 +70,10 @@ export default class MovieDetalPage extends Lightning.Component {
     get _Background() {
         return this.tag('Background')
     }
+    get _WatchButton() {
+        return this._BodyInformations._WatchButton;
+    }
+
     set props(props) {
         this._props = { ...this._props, ...props };
 
@@ -95,56 +104,18 @@ export default class MovieDetalPage extends Lightning.Component {
                         title: title,
                         overview: overview,
                         actors: actors,
-                        directorCreator: directors
+                        directorCreator: directors,
+                        onWatchButtonEnter: this._playerOnRemoteEnter.bind(this),
                     }
                 }
             },
             Background: { src: imageUrl },
-            BackButton: { props: { src: IMAGES_URL.BACK_ICON, size: 48, onEnter: this._handleBack.bind(this) } }
+            BackButton: { props: { src: IMAGES_URL.BACK_ICON, size: 48, onRemoteEnter: this._handleBack.bind(this) } }
         });
     }
 
-    get _WatchButton() {
-        return this._BodyInformations._WatchButton;
-    }
 
-    _active() {
-        this._setState('WatchFocused');
-    }
 
-    static _states() {
-        return [
-            class BackFocused extends this {
-                _getFocused() {
-                    return this._BackButton;
-                }
-
-                _handleDown() {
-                    this._setState('WatchFocused');
-                }
-
-                _handleEnter() {
-                    this._handleBack()
-                }
-            },
-
-            class WatchFocused extends this {
-                _getFocused() {
-                    return this._WatchButton;
-                }
-
-                _handleUp() {
-                    this._setState('BackFocused');
-                    return true;
-                }
-
-                _handleEnter() {
-                    Router.navigate('player', { videoURL: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8', title: this._props.details.title });
-                    return true;
-                }
-            }
-        ]
-    }
     _handleBack() {
         if (Router.isNavigating()) {
             return;
@@ -160,5 +131,52 @@ export default class MovieDetalPage extends Lightning.Component {
             Router.navigate('home');
         }
     }
+
+    _active() {
+        this._setState('WatchButton');
+    }
+
+    $handleStateHover(index, stateName = null) {
+        if (stateName) {
+            this._setState(stateName);
+            return;
+        }
+        this._setState(stateName);
+    }
+
+
+    _playerOnRemoteEnter() {
+        Router.navigate('player', { videoURL: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8', title: this._props.details.title });
+    }
+
+
+    static _states() {
+        return [
+            class BackButton extends this {
+                _getFocused() {
+                    return this._BackButton;
+                }
+
+                _handleDown() {
+                    this._setState('WatchButton');
+                }
+            },
+
+            class WatchButton extends this {
+                _getFocused() {
+                    return this._WatchButton;
+                }
+
+                _handleUp() {
+                    this._setState('BackButton');
+                    return true;
+                }
+
+
+            }
+        ]
+    }
+
+
 }
 

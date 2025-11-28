@@ -11,7 +11,7 @@ import { PLAYER_ICONS } from "../../utils/constants/URLs";
 import LoadingComponent from "../loaderComponent/LoaderComponent";
 
 export default class Player extends Lightning.Component {
-    _videoURL = '';
+    _videoURL = 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8';
     _currentTime = 0;
     _focusedIconId;
     _controlsTimeout = null;
@@ -40,7 +40,7 @@ export default class Player extends Lightning.Component {
                 visible: true,
                 x: 40,
                 y: 25,
-                zIndex: 3,
+
                 text: {
                     fontSize: 28,
                     textColor: BRANDING_COLORS.WHITE,
@@ -52,7 +52,7 @@ export default class Player extends Lightning.Component {
                 y: 830,
                 w: 500,
                 h: 100,
-                zIndex: 3,
+                // zIndex: 3,
                 flex: {
                     direction: Direction.Row,
                     alignItems: Align.Center,
@@ -66,7 +66,7 @@ export default class Player extends Lightning.Component {
                 y: 961,
                 w: 1690,
                 h: 31,
-                zIndex: 3,
+                // zIndex: 3,
                 flex: {
                     direction: Direction.Row,
                     alignItems: Align.Center,
@@ -253,8 +253,6 @@ export default class Player extends Lightning.Component {
     }
 
     _captureKey({ keyCode }) {
-
-        console.log("key kode ", { keyCode });
         if (this.visible === false && window.keyCode[keyCode] === 'Back') {
             this.visible = true;
             this.$showControls();

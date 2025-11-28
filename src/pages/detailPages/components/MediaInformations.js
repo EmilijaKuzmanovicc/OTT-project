@@ -9,6 +9,7 @@ import { URLS_VITE } from "../../../utils/constants/env";
 
 
 export default class MediaInformations extends Lightning.Component {
+
     static _template() {
         return {
             flex: { direction: Direction.Row },
@@ -68,8 +69,7 @@ export default class MediaInformations extends Lightning.Component {
                     y: 60,
                     w: 286,
                     h: 78,
-                    type: Button
-
+                    type: Button,
                 }
 
             }
@@ -93,7 +93,7 @@ export default class MediaInformations extends Lightning.Component {
     }
     set props(props) {
         this._props = { ...this._props, ...props };
-        const { poster_path, title, overview, actors, directorCreator, created_by } = this._props;
+        const { poster_path, title, overview, actors, directorCreator, created_by, onWatchButtonEnter } = this._props;
 
         const imageUrl = poster_path
             ? `${URLS_VITE.VITE_TMDB_IMAGE_URL_HTTP}${poster_path}`
@@ -129,8 +129,10 @@ export default class MediaInformations extends Lightning.Component {
                     props: {
                         src: IMAGES_URL.PLAY,
                         size: 18,
-                        text: "WATCH NOW"
+                        text: "WATCH NOW",
+                        onRemoteEnter: () => this._props.onWatchButtonEnter()
                     }
+
                 }
 
             },

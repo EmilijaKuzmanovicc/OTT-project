@@ -5,7 +5,9 @@ import { Align, Direction, Fonts } from "../../utils/constants/ConstantsForStyle
 export default class Button extends Lightning.Component {
     static _template() {
         return {
-            Background: {
+            collision: true,
+
+            FillColor: {
                 w: w => w,
                 h: h => h,
                 rect: true,
@@ -41,19 +43,19 @@ export default class Button extends Lightning.Component {
     get _Items() {
         return this.tag("Items")
     }
-    get _Background() {
-        return this.tag("Background")
+    get _FillColor() {
+        return this.tag("FillColor")
     }
     set props(props) {
         this._props = { ...this._props, ...props }
-        const { src, text, color, radius, size, font, letterSpacing, onEnter } = this._props;
+        const { src, text, radius, size, font, letterSpacing } = this._props;
         const radiusValue = radius ?? 35;
         const fontValue = font ?? 20;
         const letterSpacingValue = letterSpacing ?? 1;
         const hasIcon = !!src;
         const hasText = !!text;
         this.patch({
-            Background: {
+            FillColor: {
                 shader: {
                     radius: radiusValue,
                 },
@@ -80,22 +82,34 @@ export default class Button extends Lightning.Component {
 
     _focus() {
         this.patch({
-            Background: { color: BRANDING_COLORS.RED }
+            FillColor: { color: BRANDING_COLORS.RED }
         });
     }
 
     _unfocus() {
         this.patch({
-            Background: { color: BRANDING_COLORS.GREY }
+            FillColor: { color: BRANDING_COLORS.GREY }
         });
     }
 
+
+
     _handleEnter() {
-        console.log("enter");
+        if (this._props.onRemoteEnter)
+            this._props.onRemoteEnter();
 
-        if (this._props.onEnter) {
-            this._props.onEnter();
-        }
+    }
 
+    _handleHover() {
+        this._focus();
+        this.fireAncestors(
+            '$handleStateHover',
+            this.parent.children.indexOf(this),
+            this.__tags[0]
+        );
+    }
+
+    _handleClick() {
+        this._handleEnter()
     }
 }

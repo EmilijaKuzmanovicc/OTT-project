@@ -8,8 +8,8 @@ export default class Splash extends Lightning.Component {
                 rect: true,
                 w: 1920,
                 h: 1080,
-                src: Utils.asset(IMAGES_URL.BACKGROUND_SHINDIRI),
-                zIndex: 1,
+                src: Utils.asset(IMAGES_URL.BACKGROUND),
+                // zIndex: 1,
             },
             Logo: {
                 w: 900,
@@ -19,7 +19,7 @@ export default class Splash extends Lightning.Component {
                 x: 1920 / 2,
                 y: 1080 / 2,
                 src: Utils.asset(IMAGES_URL.SHINDIRI),
-                zIndex: 2,
+                // zIndex: 2,
             }
         }
     }

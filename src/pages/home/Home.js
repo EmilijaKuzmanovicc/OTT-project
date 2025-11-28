@@ -51,6 +51,8 @@ export default class Home extends Lightning.Component {
         Router.setHistory([]);
     }
 
+
+
     _focus() {
         this._setState('Content')
     }
