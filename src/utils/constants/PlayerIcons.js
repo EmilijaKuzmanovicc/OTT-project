@@ -17,7 +17,6 @@ export const playerIcons = [
     },
     {
         label: "PLAY_PAUSE",
-        // image: PLAYER_ICONS.PAUSE,
         x: 662,
         r: 90,
         visible: true,

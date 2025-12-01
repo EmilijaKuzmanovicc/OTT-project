@@ -76,21 +76,12 @@ export default class MediaInformations extends Lightning.Component {
         }
     }
 
-    get _Image() {
-        return this.tag('Image')
-    }
-    get _Details() {
-        return this.tag('Details')
-    }
-    get _Title() {
-        return this.tag('Details.Title')
-    }
-    get _Overview() {
-        return this.tag('Details.Overview')
-    }
-    get _WatchButton() {
-        return this.tag('Details.WatchButton')
-    }
+    get _Image() { return this.tag('Image') }
+    get _Details() { return this.tag('Details') }
+    get _Title() { return this.tag('Details.Title') }
+    get _Overview() { return this.tag('Details.Overview') }
+    get _WatchButton() { return this.tag('Details.WatchButton') }
+
     set props(props) {
         this._props = { ...this._props, ...props };
         const { poster_path, title, overview, actors, directorCreator, created_by, onWatchButtonEnter } = this._props;

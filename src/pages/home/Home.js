@@ -1,3 +1,4 @@
+import Button from "../../components/button/Button";
 import ContentSection from "./components/ContentSection";
 import Channels from "./components/TopChannels";
 import { Router, Lightning } from "@lightningjs/sdk";
@@ -7,30 +8,33 @@ export default class Home extends Lightning.Component {
     }
     static _template() {
         return {
+            collision: true,
             Content: {
+                collision: true,
                 x: 64,
                 y: 125,
-                w: 1920,
-                h: 980,
+                w: 1270,
+                h: 825,
                 type: ContentSection,
             },
+            LiveButton: {
+                y: 971,
+                x: 64,
+                type: Button,
+            },
             TopChannels: {
+                collision: true,
                 y: 122,
                 x: 1415,
-
                 type: Channels
             },
 
         };
     }
 
-    get _Content() {
-        return this.tag('Content');
-    }
-
-    get _TopChannels() {
-        return this.tag('TopChannels');
-    }
+    get _Content() { return this.tag('Content'); }
+    get _LiveButton() { return this.tag("LiveButton"); }
+    get _TopChannels() { return this.tag('TopChannels'); }
 
     set props(props) {
         this._props = { ...this._props, ...props };
@@ -41,9 +45,24 @@ export default class Home extends Lightning.Component {
                 visible: true,
                 props: {
                     homeData: { movieData: movieData, seriesData: seriesData },
+                    parentState: "Content",
                 },
             });
         }
+
+        this._TopChannels.patch({
+            props: {
+                parentState: "TopChannels",
+            }
+        })
+
+        this.patch({
+            LiveButton: {
+                w: 352,
+                h: 67,
+                props: { fontSize: 24, text: "GO TO LIVE PLAYER", letterSpacing: 2, },
+            }
+        })
     }
 
     _active() {
@@ -51,10 +70,23 @@ export default class Home extends Lightning.Component {
         Router.setHistory([]);
     }
 
+    _handleBack(e) {
+        if (Router.isNavigating()) return;
+        e.preventDefault();
 
+        this.fireAncestors('$appClose');
+    }
 
     _focus() {
         this._setState('Content')
+    }
+
+    $handleHoverState(ref) {
+        const currentState = this._getState();
+        if (ref !== currentState) {
+            if (currentState) this.tag(currentState)._unfocus();
+            this._setState(ref);
+        }
     }
 
     static _states() {
@@ -71,6 +103,9 @@ export default class Home extends Lightning.Component {
                     Router.focusWidget('Menu');
                     return true;
                 }
+                _handleDown() {
+                    this._setState("LiveButton")
+                }
             },
             class TopChannels extends this {
                 _getFocused() {
@@ -80,24 +115,16 @@ export default class Home extends Lightning.Component {
                     this._setState('Content');
                     return true;
                 }
+            },
+            class LiveButton extends this{
+                _getFocused() {
+                    return this._LiveButton;
+                }
+                _handleUp() {
+                    this._setState('Content');
+                    return true;
+                }
             }
         ];
-    }
-    _handleBack(e) {
-        if (Router.isNavigating()) {
-            return;
-        }
-        e.preventDefault();
-
-        this.fireAncestors('$appClose');
-        // const routerHistory = Router.getHistory().filter(
-        //     history => history.hash != 'splash' && history.hash != 'cmp'
-        // )
-        // if (routerHistory.length) {
-        //     Router.back();
-        // }
-        // else {
-        //     Router.navigate('home')
-        // }
     }
 }

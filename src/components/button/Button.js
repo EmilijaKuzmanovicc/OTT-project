@@ -6,7 +6,6 @@ export default class Button extends Lightning.Component {
     static _template() {
         return {
             collision: true,
-
             FillColor: {
                 w: w => w,
                 h: h => h,
@@ -19,14 +18,8 @@ export default class Button extends Lightning.Component {
             Items: {
                 h: h => h,
                 w: w => w,
-                flex: {
-                    direction: Direction.Row, justifyContent: Align.Center,
-                    alignItems: Align.Center,
-
-                },
-                Icon: {
-
-                },
+                flex: { direction: Direction.Row, justifyContent: Align.Center, alignItems: Align.Center, },
+                Icon: {},
                 Text: {
                     x: 10,
                     y: 2,
@@ -35,17 +28,14 @@ export default class Button extends Lightning.Component {
                         textColor: BRANDING_COLORS.WHITE,
                     }
                 }
-
             }
         }
     }
 
-    get _Items() {
-        return this.tag("Items")
-    }
-    get _FillColor() {
-        return this.tag("FillColor")
-    }
+    get _Items() { return this.tag("Items") }
+
+    get _FillColor() { return this.tag("FillColor") }
+
     set props(props) {
         this._props = { ...this._props, ...props }
         const { src, text, radius, size, font, letterSpacing } = this._props;
@@ -92,8 +82,6 @@ export default class Button extends Lightning.Component {
         });
     }
 
-
-
     _handleEnter() {
         if (this._props.onRemoteEnter)
             this._props.onRemoteEnter();
@@ -102,14 +90,10 @@ export default class Button extends Lightning.Component {
 
     _handleHover() {
         this._focus();
-        this.fireAncestors(
-            '$handleStateHover',
-            this.parent.children.indexOf(this),
-            this.__tags[0]
-        );
+        this.fireAncestors('$handleHoverState', this.ref);
     }
 
     _handleClick() {
-        this._handleEnter()
+        this._handleEnter();
     }
 }

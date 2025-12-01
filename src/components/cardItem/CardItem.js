@@ -4,7 +4,6 @@ import { Direction } from '../../utils/constants/ConstantsForStyle';
 import { IMAGES_URL } from '../../utils/constants/URLs';
 import { ITEMS_NAME } from '../../utils/constants/Constants';
 import { URLS_VITE } from '../../utils/constants/env';
-
 export default class CardItem extends Lightning.Component {
     _overview = '';
     _backdrop_path;
@@ -14,6 +13,7 @@ export default class CardItem extends Lightning.Component {
             rect: true,
             y: 5,
             x: -6,
+            collision: true,
             passSignals: { changeHeroBackground: true },
             color: BRANDING_COLORS.TRANSPARENT,
             flex: { direction: Direction.Column, paddingRight: 20 },
@@ -44,27 +44,18 @@ export default class CardItem extends Lightning.Component {
         }
     }
 
-    get _Image() {
-        return this.tag("Image")
-    }
-
-    get _Label() {
-        return this.tag("Label");
-    }
+    get _Image() { return this.tag("Image") }
+    get _Label() { return this.tag("Label"); }
 
     set props(props) {
         this._props = { ...this._props, ...props };
-        const { poster_path, title, overview, name, backdrop_path, id } = this._props;
-
+        const { poster_path, title, overview, name, backdrop_path, id, parentState } = this._props;
         const poster = this._w > 250 ? backdrop_path : poster_path;
         this._id = id;
-
         const imageUrl = poster ? `${URLS_VITE.VITE_TMDB_IMAGE_URL_POSTER}${poster}` : Utils.asset(IMAGES_URL.IMAGE_NOT_FOUND);
-
         this.patch({
             Image: { src: imageUrl },
             Label: { text: { wordWrapWidth: (this._w - 10), text: title === undefined ? name : title } }
-
         })
         this._overview = overview;
         this._backdrop_path = imageUrl
@@ -111,5 +102,14 @@ export default class CardItem extends Lightning.Component {
                 console.warn(`Nepoznat railType: ${railType}`);
                 break;
         }
+    }
+
+    _handleHover() {
+        this._focus();
+        this.fireAncestors("$handleItemHover", this.parent.children.indexOf(this));
+    }
+
+    _handleClick() {
+        this._handleEnter()
     }
 }

@@ -1,7 +1,5 @@
 export const IMAGES_URL = {
-    // BACKGROUND: "images/full_background.png",
     BACKGROUND: "images/backpicture.jpg",
-
     BACK_ICON: "images/back_icon.png",
     PLAY: "images/play.png",
     LOGO: "images/logo.png",

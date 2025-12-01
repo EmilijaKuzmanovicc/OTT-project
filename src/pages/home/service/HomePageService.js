@@ -7,13 +7,8 @@ class HomePageService extends FetchingService {
     #homeMovies = null;
     #homeSeries = null;
 
-    get homeMovies() {
-        return this.#homeMovies;
-    }
-
-    get homeSeries() {
-        return this.#homeSeries;
-    }
+    get homeMovies() { return this.#homeMovies; }
+    get homeSeries() { return this.#homeSeries; }
 
     async fetchHomeMoviesData(page = 1, limit = 5) {
         try {

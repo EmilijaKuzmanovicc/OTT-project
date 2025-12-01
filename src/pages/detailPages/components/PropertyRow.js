@@ -37,12 +37,8 @@ export default class PropertyRow extends Lightning.Component {
         }
     }
 
-    get _Label() {
-        return this.tag('Text.Label')
-    }
-    get _Elements() {
-        return this.tag('Text.Elements')
-    }
+    get _Label() { return this.tag('Text.Label') }
+    get _Elements() { return this.tag('Text.Elements') }
 
     set props(props) {
         this._props = { ...this._props, ...props };

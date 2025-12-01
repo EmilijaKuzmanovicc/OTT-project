@@ -6,7 +6,6 @@ import { Fonts } from "../../utils/constants/ConstantsForStyle";
 import { VOD_TYPES } from "../../utils/constants/Constants";
 import { URLS_VITE } from "../../utils/constants/env";
 import { IMAGES_URL } from "../../utils/constants/URLs";
-
 export default class VodPreview extends Lightning.Component {
     _props = {};
     _indexSelected = 0;
@@ -53,6 +52,7 @@ export default class VodPreview extends Lightning.Component {
                 x: 35,
                 h: 370,
                 Column: {
+                    collision: true,
                     w: 1860,
                     type: HorizontalContainer,
                 }

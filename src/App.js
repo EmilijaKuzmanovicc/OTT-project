@@ -49,12 +49,8 @@ export default class App extends Router.App {
     }
   }
 
-  get _Background() {
-    return this.tag("Background")
-  }
-  get _Menu() {
-    return this.tag("Widgets.Menu");
-  }
+  get _Background() { return this.tag("Background") }
+  get _Menu() { return this.tag("Widgets.Menu"); }
 
   $punchHole() {
     this.tag('Background').shader = {
@@ -66,6 +62,7 @@ export default class App extends Router.App {
       h: 1080,
     }
   }
+
   $unpunchHole() {
     this.tag('Background').shader = {
       x: 0,
@@ -74,6 +71,7 @@ export default class App extends Router.App {
       h: 0,
     };
   }
+
   _setup() {
     Router.startRouter(
       {

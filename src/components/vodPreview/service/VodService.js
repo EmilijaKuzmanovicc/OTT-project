@@ -4,13 +4,9 @@ import { API_URLS } from "../../../utils/constants/URLs";
 class VodService extends FetchingService {
     #movies = null;
     #series = null;
-    get movies() {
-        return this.#movies
-    }
 
-    get series() {
-        return this.#series
-    }
+    get movies() { return this.#movies }
+    get series() { return this.#series }
 
     async getMoviesOnPage(page = 1) {
         try {

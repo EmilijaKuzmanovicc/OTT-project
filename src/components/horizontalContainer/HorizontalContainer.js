@@ -30,17 +30,11 @@ export default class HorizontalContainer extends Lightning.Component {
         this.signal("changeHeroBackground", id, backdrop_path);
     }
 
-    get Items() {
-        return this.tag("Items");
-    }
+    get Items() { return this.tag("Items"); }
 
-    get Title() {
-        return this.tag("Title");
-    }
+    get Title() { return this.tag("Title"); }
 
-    get _focusedIndex() {
-        return this._focusedIndex;
-    }
+    get _focusedIndex() { return this._focusedIndex; }
 
     set _focusedIndex(val) {
         this._focusedIndex = val;
@@ -49,6 +43,24 @@ export default class HorizontalContainer extends Lightning.Component {
     $horizontalPosterIndexChange(val) {
         this.Items.children[this._focusedIndex]?._unfocus();
         this._setFocusedIndex(val);
+    }
+
+    $handleItemHover(index) {
+        if (this._focusedIndex !== index) {
+            this.Items.children[this._focusedIndex]?._unfocus();
+            this._focusedIndex = index;
+        }
+        this._reCalibrateScroll();
+
+        this.fireAncestors("$handleHoverState", this.ref);
+    }
+
+    setFocus(index) {
+        this._setFocusedIndex(index);
+    }
+
+    _unfocus() {
+        this.Items.children[this._focusedIndex]?._unfocus();
     }
 
     _appendItems(items) {

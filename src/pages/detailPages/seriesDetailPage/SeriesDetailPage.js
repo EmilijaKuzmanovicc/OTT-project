@@ -53,18 +53,12 @@ export default class SeriesDetalPage extends Lightning.Component {
             }
         }
     }
-    get _BackButton() {
-        return this.tag('BackButton')
-    }
-    get _BodyInformations() {
-        return this.tag('BodyInformations')
-    }
-    get _MediaHeader() {
-        return this.tag('MediaHeader')
-    }
-    get _Background() {
-        return this.tag('Background')
-    }
+    get _BackButton() { return this.tag('BackButton') }
+    get _BodyInformations() { return this.tag('BodyInformations') }
+    get _MediaHeader() { return this.tag('MediaHeader') }
+    get _Background() { return this.tag('Background') }
+    get _WatchButton() { return this._BodyInformations._WatchButton; }
+
     set props(props) {
         this._props = { ...this._props, ...props };
 
@@ -74,7 +68,6 @@ export default class SeriesDetalPage extends Lightning.Component {
             return;
         }
         const { genres = [], backdrop_path, first_air_date, last_air_date, origin_country, adult, vote_average, created_by, poster_path, name, overview } = details;
-
         const yearStart = first_air_date?.toString().split("-")[0] ?? "";
         const yearEnd = last_air_date?.toString().split("-")[0] ?? "";
 
@@ -97,68 +90,62 @@ export default class SeriesDetalPage extends Lightning.Component {
                         overview: overview,
                         created_by: created_by,
                         actors: actors,
-                        directorCreator: directors
+                        directorCreator: directors,
+                        onWatchButtonEnter: this._playerOnRemoteEnter.bind(this),
+
                     }
                 }
             },
             Background: { src: imageUrl },
-            BackButton: { props: { src: IMAGES_URL.BACK_ICON, size: 48, onEnter: this._handleBack.bind(this) } }
+            BackButton: { props: { src: IMAGES_URL.BACK_ICON, size: 48, onRemoteEnter: this._handleBack.bind(this) } }
         });
     }
 
-    get _WatchButton() {
-        return this._BodyInformations._WatchButton;
+    _active() {
+        this._setState('WatchButton');
     }
 
-    _active() {
-        this._setState('WatchFocused');
+    _handleBack() {
+        if (Router.isNavigating()) return;
+        const routerHistory = Router.getHistory().filter(history => history.hash != 'splash' && history.hash != 'cmp');
+        if (routerHistory.length) Router.back();
+        else Router.navigate('home')
+    }
+
+    _playerOnRemoteEnter() {
+        Router.navigate('player', { videoURL: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8', title: this._props.details.name });
+    }
+
+    $handleHoverState(stateName = null) {
+        if (stateName) {
+            this._setState(stateName);
+            return;
+        }
+        this._setState(stateName);
     }
 
     static _states() {
         return [
-            class BackFocused extends this {
+            class BackButton extends this {
                 _getFocused() {
                     return this._BackButton;
                 }
 
                 _handleDown() {
-                    this._setState('WatchFocused');
-                }
-
-                _handleEnter() {
-                    this._handleBack()
+                    this._setState('WatchButton');
                 }
             },
 
-            class WatchFocused extends this {
+            class WatchButton extends this {
                 _getFocused() {
                     return this._WatchButton;
                 }
 
                 _handleUp() {
-                    this._setState('BackFocused');
-                    return true;
-                }
-                _handleEnter() {
-                    Router.navigate('player', { videoURL: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8', title: this._props.details.name });
+                    this._setState('BackButton');
                     return true;
                 }
             }
         ]
-    }
-    _handleBack() {
-        if (Router.isNavigating()) {
-            return;
-        }
-
-        const routerHistory = Router.getHistory().filter(
-            history => history.hash != 'splash' && history.hash != 'cmp'
-        )
-        if (routerHistory.length) {
-            Router.back();
-        }
-        else {
-            Router.navigate('home')
-        }
     }
 }

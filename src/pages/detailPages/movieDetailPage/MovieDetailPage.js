@@ -8,7 +8,6 @@ import MediaInformations from '../components/MediaInformations';
 import { BRANDING_COLORS } from '../../../utils/constants/Colors';
 import { URLS_VITE } from '../../../utils/constants/env';
 
-const states = ['BackButton', "WatchButton"];
 export default class MovieDetalPage extends Lightning.Component {
 
     static _template() {
@@ -58,21 +57,11 @@ export default class MovieDetalPage extends Lightning.Component {
             }
         }
     }
-    get _BackButton() {
-        return this.tag('BackButton')
-    }
-    get _BodyInformations() {
-        return this.tag('BodyInformations')
-    }
-    get _MediaHeader() {
-        return this.tag('MediaHeader')
-    }
-    get _Background() {
-        return this.tag('Background')
-    }
-    get _WatchButton() {
-        return this._BodyInformations._WatchButton;
-    }
+    get _BackButton() { return this.tag('BackButton') }
+    get _BodyInformations() { return this.tag('BodyInformations') }
+    get _MediaHeader() { return this.tag('MediaHeader') }
+    get _Background() { return this.tag('Background') }
+    get _WatchButton() { return this._BodyInformations._WatchButton; }
 
     set props(props) {
         this._props = { ...this._props, ...props };
@@ -114,8 +103,6 @@ export default class MovieDetalPage extends Lightning.Component {
         });
     }
 
-
-
     _handleBack() {
         if (Router.isNavigating()) {
             return;
@@ -136,19 +123,17 @@ export default class MovieDetalPage extends Lightning.Component {
         this._setState('WatchButton');
     }
 
-    $handleStateHover(index, stateName = null) {
+    _playerOnRemoteEnter() {
+        Router.navigate('player', { videoURL: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8', title: this._props.details.title });
+    }
+
+    $handleHoverState(stateName = null) {
         if (stateName) {
             this._setState(stateName);
             return;
         }
         this._setState(stateName);
     }
-
-
-    _playerOnRemoteEnter() {
-        Router.navigate('player', { videoURL: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8', title: this._props.details.title });
-    }
-
 
     static _states() {
         return [
@@ -161,7 +146,6 @@ export default class MovieDetalPage extends Lightning.Component {
                     this._setState('WatchButton');
                 }
             },
-
             class WatchButton extends this {
                 _getFocused() {
                     return this._WatchButton;
@@ -171,12 +155,8 @@ export default class MovieDetalPage extends Lightning.Component {
                     this._setState('BackButton');
                     return true;
                 }
-
-
             }
         ]
     }
-
-
 }
 

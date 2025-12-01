@@ -12,9 +12,7 @@ export default class FetchingService {
 
     #loading = false;
 
-    get loading() {
-        return this.#loading;
-    }
+    get loading() { return this.#loading; }
 
     async _request({ url, method = "GET", data = null, params = {} }) {
         this.#loading = true;

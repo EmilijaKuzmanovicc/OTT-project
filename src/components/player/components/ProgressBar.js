@@ -39,7 +39,6 @@ export default class ProgressBar extends Lightning.Component {
                     h: h => h,
                     color: BRANDING_COLORS.RED,
                     Marker: {
-                        zIndex: 20,
                         visible: false,
                         texture: lng.Tools.getRoundRect(
                             24, 24, 12, 3,
@@ -104,8 +103,6 @@ export default class ProgressBar extends Lightning.Component {
         this._Marker.setSmooth("x", progressWidth - this._Marker.w / 2 - this._props.markerRadius);
     }
 
-    // _getFocused() { return this; }
-
     _focus() {
         this._updateBackgroundBarTexture(2, BRANDING_COLORS.RED);
         this._Marker.visible = true;
@@ -147,7 +144,6 @@ export default class ProgressBar extends Lightning.Component {
         }
         if (this._newTime == null) this._newTime = VideoPlayer.currentTime;
         this._newTime = computeSeekTime(5 + this._numOfTriggers, this._newTime);
-        //this._updateProgressBar();
         this.fireAncestors("$showControls");
     }
 
@@ -163,9 +159,7 @@ export default class ProgressBar extends Lightning.Component {
         }
         if (this._newTime == null) this._newTime = VideoPlayer.currentTime;
         this._newTime = computeSeekTime(-5 - this._numOfTriggers, this._newTime);
-        // this._updateProgressBar();
         this.fireAncestors("$showControls");
-
     }
 
     _handleRightRelease() {

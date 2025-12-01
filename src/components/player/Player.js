@@ -35,7 +35,9 @@ export default class Player extends Lightning.Component {
                     yPos: 540,
                 },
             },
-            Overlay: { zIndex: 2, x: 0, y: 0, w: 1920, h: 1080, rect: true, color: BRANDING_COLORS.LIGHT_BLACK, alpha: 0 },
+            Overlay: {
+                x: 0, y: 0, w: 1920, h: 1080, rect: true, color: BRANDING_COLORS.LIGHT_BLACK, alpha: 0
+            },
             Title: {
                 visible: true,
                 x: 40,
@@ -52,7 +54,6 @@ export default class Player extends Lightning.Component {
                 y: 830,
                 w: 500,
                 h: 100,
-                // zIndex: 3,
                 flex: {
                     direction: Direction.Row,
                     alignItems: Align.Center,
@@ -66,7 +67,6 @@ export default class Player extends Lightning.Component {
                 y: 961,
                 w: 1690,
                 h: 31,
-                // zIndex: 3,
                 flex: {
                     direction: Direction.Row,
                     alignItems: Align.Center,
@@ -82,17 +82,11 @@ export default class Player extends Lightning.Component {
         }
     }
 
-    get _Title() {
-        return this.tag('Title')
-    }
+    get _Title() { return this.tag('Title') }
 
-    get _ProgressBarWraper() {
-        return this.tag('ProgressBarWraper')
-    }
+    get _ProgressBarWraper() { return this.tag('ProgressBarWraper') }
 
-    get _Controls() {
-        return this.tag('ControlsWrapper.Controls')
-    }
+    get _Controls() { return this.tag('ControlsWrapper.Controls') }
 
     set params({ videoURL, title }) {
         VideoPlayer.open(videoURL);
@@ -244,9 +238,7 @@ export default class Player extends Lightning.Component {
             ProgressBarWraper: { smooth: { alpha: 0, duration: 0, timingFunction: 'ease-in-out' } },
             Overlay: { smooth: { alpha: 0, duration: 0, timingFunction: 'ease-in-out' } },
         });
-        // this._setState('ControlsIcons');
     }
-
 
     _active() {
         this._setState('ControlsIcons');
@@ -268,6 +260,7 @@ export default class Player extends Lightning.Component {
             }
         })
     }
+
     _showSpinner() {
         this.patch({
             Spinner: {
@@ -275,8 +268,6 @@ export default class Player extends Lightning.Component {
             }
         })
     }
-
-
 
     _enable() {
         this._currentTime = 0;

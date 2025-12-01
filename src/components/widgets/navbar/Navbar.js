@@ -14,6 +14,7 @@ export default class Navbar extends Lightning.Component {
         return {
             h: 120,
             w: 1920,
+            collision: true,
             flex: { direction: Direction.Row, alignItems: Align.Center },
             Image: {
                 w: 301,
@@ -22,6 +23,7 @@ export default class Navbar extends Lightning.Component {
                 src: Utils.asset(IMAGES_URL.LOGO),
             },
             Items: {
+                collision: true,
                 w: 675,
                 h: 50,
                 x: 125,
@@ -31,20 +33,14 @@ export default class Navbar extends Lightning.Component {
         };
     }
 
-    get _Items() {
-        return this.tag("Items");
-    }
-
-    get _NavbarItemChildren() {
-        return this._Items.Items.children;
-    }
+    get _Items() { return this.tag("Items"); }
+    get _NavbarItemChildren() { return this._Items.Items.children; }
 
     set props(props) {
         const focusedId = getRouteNavbarIndex(props.route);
         this._activeHash = this._selectedMenuItem = focusedId;
         this._menuItemRoutes = NavbarItemsList.map((item) => item.route);
         this._setActiveItems(focusedId)
-
     }
 
     $changePage(index) {
@@ -70,7 +66,6 @@ export default class Navbar extends Lightning.Component {
     }
 
     _init() {
-
         this.patch({
             Items: {
                 props: {
@@ -97,13 +92,14 @@ export default class Navbar extends Lightning.Component {
     }
 
     _handleLeft() { return true; }
+
     _handleRight() { return true; }
+
     _handleUp() { return true; }
-    _handleDown() {
+
+    _handleDown() { return false; }
+
+    _handleUnhover() {
         Router.focusPage();
-        return false;
     }
-
-
-
 }

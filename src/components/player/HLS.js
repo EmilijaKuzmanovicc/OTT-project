@@ -19,7 +19,6 @@ function handleUnrecoverableError(player, errorEvent) {
 const createPlayer = (options) => {
     if (!player) {
         player = new Hls({ ...defaults, ...options });
-        // Additional configuration if needed
     }
     return player;
 };

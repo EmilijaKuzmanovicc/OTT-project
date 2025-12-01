@@ -34,17 +34,9 @@ export default class VerticalContainer extends Lightning.Component {
             },
         };
     }
-    get Items() {
-        return this.tag('Items');
-    }
-
-    get Title() {
-        return this.tag('Title');
-    }
-
-    get _focusedIndex() {
-        return this._focusedIndex;
-    }
+    get Items() { return this.tag('Items'); }
+    get Title() { return this.tag('Title'); }
+    get _focusedIndex() { return this._focusedIndex; }
 
     set _focusedIndex(val) {
         this._focusedIndex = val;
@@ -53,6 +45,30 @@ export default class VerticalContainer extends Lightning.Component {
     $verticalPosterIndexChange(val) {
         this.Items.children[this._focusedIndex]?._unfocus();
         this._setFocusedIndex(val);
+    }
+
+    _focus() {
+        const { items } = this._props;
+        if (this._focusedIndex >= 0 && this._focusedIndex < items.length) {
+            this.Items.children[this._focusedIndex]?._focus();
+        }
+    }
+
+    _unfocus() {
+        const { items } = this._props;
+        if (this._focusedIndex >= 0 && this._focusedIndex < items.length) {
+            this.Items.children[this._focusedIndex]?._unfocus();
+        }
+    }
+
+    $handleItemHover(index) {
+        if (this._focusedIndex !== index) {
+            this.Items.children[this._focusedIndex]?._unfocus();
+            this._focusedIndex = index;
+        }
+        this._reCalibrateScroll();
+
+        this.fireAncestors("$handleHoverState", this.ref);
     }
 
     _appendItems(items) {

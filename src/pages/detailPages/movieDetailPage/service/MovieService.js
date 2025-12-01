@@ -4,12 +4,9 @@ import { API_URLS } from "../../../../utils/constants/URLs";
 class MovieService extends FetchingService {
     #details = null;
     #casts = null;
-    get details() {
-        return this.#details;
-    }
-    get casts() {
-        return this.#casts;
-    }
+
+    get details() { return this.#details; }
+    get casts() { return this.#casts; }
 
     async getMovie(id) {
         try {

@@ -10,38 +10,28 @@ export default class ContentSection extends Lightning.Component {
     static _template() {
         return {
             MoviesSection: {
+                collision: true,
                 w: 1241,
                 h: 360,
                 type: HorizontalContainer
             },
             SeriesSection: {
+                collision: true,
                 y: 423,
                 w: 1241,
                 h: 404,
                 type: HorizontalContainer
             },
-            LiveButton: {
-                y: 846,
-                type: Button,
-            }
         }
     }
 
-    get _MoviesSection() {
-        return this.tag('MoviesSection')
-    }
+    get _MoviesSection() { return this.tag('MoviesSection') }
+    get _SeriesSection() { return this.tag('SeriesSection') }
+    get _LiveButton() { return this.tag('LiveButton') }
 
-    get _SeriesSection() {
-        return this.tag('SeriesSection')
-    }
-
-    get _LiveButton() {
-        return this.tag('LiveButton')
-    }
     set props(props) {
         this._props = { ...this._props, ...props };
-        const { homeData } = this._props
-
+        const { homeData, parentState } = this._props
         this.patch({
             MoviesSection: {
                 props: {
@@ -49,11 +39,11 @@ export default class ContentSection extends Lightning.Component {
                         w: 241,
                         h: 359,
                         type: CardItem,
-                        props: { ...item, railType: homeData.movieData.railData },
+                        props: { ...item, railType: homeData.movieData.railData, parentState: "MoviesSection", },
+
                     })),
                     railTitle: homeData.movieData.railData,
                     disableScroll: true,
-
                 }
             },
             SeriesSection: {
@@ -62,23 +52,30 @@ export default class ContentSection extends Lightning.Component {
                         w: 241,
                         h: 359,
                         type: CardItem,
-                        props: { ...item, railType: homeData.seriesData.railData },
+                        props: { ...item, railType: homeData.seriesData.railData, parentState: "SeriesSection", },
                     })),
                     railTitle: homeData.seriesData.railData,
                     disableScroll: true,
                 }
             },
-            LiveButton: {
-                w: 352,
-                h: 67,
-                props: { fontSize: 24, text: "GO TO LIVE PLAYER", letterSpacing: 2 }
-
-            }
         });
     }
 
     _active() {
         this._setState('MoviesSection')
+    }
+
+    _getFocused() {
+        return this.Items?.children[0] || this;
+    }
+
+    $handleHoverState(ref) {
+        const currentState = this._getState();
+        if (ref !== currentState) {
+            if (currentState) this.tag(currentState)._unfocus();
+            this._setState(ref);
+        }
+        this.fireAncestors("$handleHoverState", this.ref);
     }
 
     static _states() {
@@ -104,24 +101,8 @@ export default class ContentSection extends Lightning.Component {
                     this._setState('MoviesSection');
                     return true;
                 }
-                _handleDown() {
-                    this._setState('LiveButton');
-                    return true;
-                }
-
             },
-            class LiveButton extends this{
-                _getFocused() {
-                    return this._LiveButton;
-                }
-                _handleUp() {
-                    this._setState('SeriesSection');
-                    return true;
-                }
-            }
         ];
     }
-    _getFocused() {
-        return this.Items?.children[0] || this;
-    }
+
 }

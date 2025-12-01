@@ -1,10 +1,10 @@
 import { Lightning, Utils } from '@lightningjs/sdk';
 import { BRANDING_COLORS } from '../../../utils/constants/Colors';
 import { Align, Fonts } from '../../../utils/constants/ConstantsForStyle';
-
-export default class VerticalItem extends Lightning.Component {
+export default class ChannelItem extends Lightning.Component {
     static _template() {
         return {
+            collision: true,
             w: 280,
             h: 136,
             flexItem: { marginBottom: 16 },
@@ -48,16 +48,10 @@ export default class VerticalItem extends Lightning.Component {
         };
     }
 
-    get _Background() {
-        return this.tag('Background');
-    }
+    get _Background() { return this.tag('Background'); }
+    get _Text() { return this.tag('Text') }
+    get _Image() { return this.tag('Image') }
 
-    get _Text() {
-        return this.tag('Text')
-    }
-    get _Image() {
-        return this.tag('Image')
-    }
     set props(data) {
         this.patch({
             ImageWrapper: {
@@ -85,5 +79,10 @@ export default class VerticalItem extends Lightning.Component {
             Background: { shader: { stroke: 0 } },
             Text: { text: { textColor: BRANDING_COLORS.LIGHTER_GREY, } }
         })
+    }
+
+    _handleHover() {
+        this._focus()
+        this.fireAncestors("$handleItemHover", this.parent.children.indexOf(this));
     }
 }

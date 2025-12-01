@@ -23,9 +23,7 @@ export default class LoadingComponent extends Lightning.Component {
         };
     }
 
-    get _Spinner() {
-        return this.tag('Spinner');
-    }
+    get _Spinner() { return this.tag('Spinner'); }
 
     set props(props) {
         this._props = { ...this._props, ...props };

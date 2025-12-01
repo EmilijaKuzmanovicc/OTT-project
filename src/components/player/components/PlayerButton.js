@@ -11,9 +11,7 @@ export default class PlayerButton extends Lightning.Component {
         }
     }
 
-    get _Image() {
-        return this.tag("Image")
-    }
+    get _Image() { return this.tag("Image") }
     set props(props) {
         this._props = { ...this._props, ...props };
         this._updateFromProps();

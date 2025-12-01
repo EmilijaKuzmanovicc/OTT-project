@@ -2,9 +2,9 @@ import { Lightning, Router } from '@lightningjs/sdk';
 import { Direction, Fonts } from "../../../../utils/constants/ConstantsForStyle";
 import { BRANDING_COLORS } from "../../../../utils/constants/Colors";
 export default class NavbarItemCard extends Lightning.Component {
-
     _props = {
         selected: false,
+        hasFocus: false,
     };
 
     static _template() {
@@ -12,7 +12,7 @@ export default class NavbarItemCard extends Lightning.Component {
             h: 29,
             w: 150,
             flex: { paddingRight: 88, direction: Direction.Column },
-
+            collision: true,
             Label: {
                 text: {
                     fontFace: Fonts.InterBold,
@@ -20,7 +20,6 @@ export default class NavbarItemCard extends Lightning.Component {
                     letterSpacing: 2
                 }
             },
-
             Line: {
                 x: -15,
                 y: 10,
@@ -35,9 +34,7 @@ export default class NavbarItemCard extends Lightning.Component {
         };
     }
 
-    get _Label() {
-        return this.tag('Label');
-    }
+    get _Label() { return this.tag('Label'); }
 
     set props(props) {
         this._props = { ...this._props, ...props };
@@ -61,6 +58,8 @@ export default class NavbarItemCard extends Lightning.Component {
     }
 
     _focus() {
+        this._props.hasFocus = true;
+
         this.scale = 1.1;
         this.stage.once('frameEnd', () => {
             this.patch({
@@ -74,6 +73,8 @@ export default class NavbarItemCard extends Lightning.Component {
     }
 
     _unfocus() {
+        this._props.hasFocus = false;
+
         this.scale = 1.0;
         this.patch({
             Label: {
@@ -101,14 +102,21 @@ export default class NavbarItemCard extends Lightning.Component {
                 }
             }
         });
-
         this.fireAncestors('$storeSelectedIndex', 0);
-
         this.fireAncestors('$changePage', this._props.index);
-
     }
 
     _handleDown() {
         return false;
+    }
+
+    _handleClick() {
+        this._handleEnter();
+    }
+
+    _handleHover() {
+        this._focus();
+        this.fireAncestors("$handleItemHover", this.parent.children.indexOf(this));
+        Router.focusWidget("Menu");
     }
 }
