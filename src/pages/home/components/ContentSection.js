@@ -1,18 +1,19 @@
 import { Lightning, Router } from "@lightningjs/sdk";
 import HorizontalContainer from "../../../components/horizontalContainer/HorizontalContainer";
 import CardItem from "../../../components/cardItem/CardItem";
-import Button from "../../../components/button/Button";
-
 export default class ContentSection extends Lightning.Component {
     _props = {
         homeData: []
     }
+    _lastSelectedIndex = 0;
+    _lastSelectedRail = 'MoviesSection'
     static _template() {
         return {
             MoviesSection: {
                 collision: true,
                 w: 1241,
                 h: 360,
+                collision: true,
                 type: HorizontalContainer
             },
             SeriesSection: {
@@ -20,6 +21,7 @@ export default class ContentSection extends Lightning.Component {
                 y: 423,
                 w: 1241,
                 h: 404,
+                collision: true,
                 type: HorizontalContainer
             },
         }
@@ -35,25 +37,27 @@ export default class ContentSection extends Lightning.Component {
         this.patch({
             MoviesSection: {
                 props: {
-                    items: homeData.movieData.slicedData.map((item) => ({
+                    items: homeData.movieData.slicedData.map((item, index) => ({
                         w: 241,
                         h: 359,
                         type: CardItem,
-                        props: { ...item, railType: homeData.movieData.railData, parentState: "MoviesSection", },
+                        props: { ...item, railType: homeData.movieData.railData, parentState: "MoviesSection", index: index },
 
                     })),
+                    targetIndex: this._lastSelectedIndex,
                     railTitle: homeData.movieData.railData,
                     disableScroll: true,
                 }
             },
             SeriesSection: {
                 props: {
-                    items: homeData.seriesData.slicedData.map((item) => ({
+                    items: homeData.seriesData.slicedData.map((item, index) => ({
                         w: 241,
                         h: 359,
                         type: CardItem,
-                        props: { ...item, railType: homeData.seriesData.railData, parentState: "SeriesSection", },
+                        props: { ...item, railType: homeData.seriesData.railData, parentState: "SeriesSection", index: index },
                     })),
+                    targetIndex: this._lastSelectedIndex,
                     railTitle: homeData.seriesData.railData,
                     disableScroll: true,
                 }
@@ -62,12 +66,18 @@ export default class ContentSection extends Lightning.Component {
     }
 
     _active() {
-        this._setState('MoviesSection')
+        this._setState(this._lastSelectedRail)
     }
 
     _getFocused() {
         return this.Items?.children[0] || this;
     }
+
+    $storeSelectedIndex(index) {
+        this._lastSelectedIndex = index;
+        this._lastSelectedRail = this._getState();
+    }
+
 
     $handleHoverState(ref) {
         const currentState = this._getState();

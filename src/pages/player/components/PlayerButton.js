@@ -1,13 +1,17 @@
-import { Utils } from "@lightningjs/sdk";
 import Lightning from "@lightningjs/sdk/src/Lightning";
-import { BRANDING_COLORS } from "../../../utils/constants/Colors";
 import { Align } from "../../../utils/constants/ConstantsForStyle";
+import { Utils } from "@lightningjs/sdk";
+import { BRANDING_COLORS } from "../../../utils/constants/Colors";
+
 export default class PlayerButton extends Lightning.Component {
     static _template() {
         return {
             h: 90,
             flex: { alignItems: Align.Center },
-            Image: {}
+            Image: {
+                collision: true,
+
+            }
         }
     }
 
@@ -42,10 +46,20 @@ export default class PlayerButton extends Lightning.Component {
     }
 
     _focus() {
+        this.fireAncestors("$showControls");
         this._Image.color = BRANDING_COLORS.RED
     }
 
     _unfocus() {
         this._Image.color = BRANDING_COLORS.WHITE
+    }
+
+    _handleHover() {
+        this._focus();
+        this.fireAncestors("$handleItemHover", this.parent.children.indexOf(this));
+    }
+
+    _handleClick() {
+        this._handleEnter();
     }
 }

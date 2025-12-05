@@ -82,6 +82,9 @@ export default class Home extends Lightning.Component {
     }
 
     $handleHoverState(ref) {
+        if (Router.getActiveHash()) {
+            Router.focusPage();
+        }
         const currentState = this._getState();
         if (ref !== currentState) {
             if (currentState) this.tag(currentState)._unfocus();

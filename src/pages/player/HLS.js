@@ -1,5 +1,5 @@
-import { VideoPlayer } from '@lightningjs/sdk';
-import Hls from 'hls.js/dist/hls.js';
+import { VideoPlayer } from "@lightningjs/sdk";
+import Hls from "hls.js";
 
 
 let player = null;

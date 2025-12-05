@@ -3,7 +3,6 @@ import { BRANDING_COLORS } from "../../../utils/constants/Colors";
 import { VideoPlayer } from "@lightningjs/sdk";
 import { formatTime } from "../utils/formatTime";
 import { Align, Fonts } from "../../../utils/constants/ConstantsForStyle";
-import { computeSeekTime } from "../utils/computeSeekTime";
 
 export default class ProgressBar extends Lightning.Component {
     _props = { radius: 6, width: 1404, height: 9, markerRadius: 8 };
@@ -29,13 +28,14 @@ export default class ProgressBar extends Lightning.Component {
                 }
             },
             ProgressBar: {
+                collision: true,
                 w: 1404,
                 h: 13,
                 BackgroundBar: {},
                 Progress: {
                     rect: true,
                     w: 0,
-                    flex: { alignItems: 'center' },
+                    flex: { alignItems: Align.Center },
                     h: h => h,
                     color: BRANDING_COLORS.RED,
                     Marker: {
@@ -119,6 +119,8 @@ export default class ProgressBar extends Lightning.Component {
         if (Math.floor(time) === Math.floor(VideoPlayer.duration)) {
             if (!this._isEnd) {
                 this.fireAncestors("$videoIsEnded")
+                // this.fireAncestors("$videoPlayerEnded")
+
             }
         }
         else {
@@ -128,6 +130,7 @@ export default class ProgressBar extends Lightning.Component {
                 this.fireAncestors("$playPauseVideo")
             }
         }
+
         if (time / VideoPlayer.duration > 0)
             this._progress(time / VideoPlayer.duration);
     }
@@ -178,5 +181,10 @@ export default class ProgressBar extends Lightning.Component {
             VideoPlayer.seek(this._newTime);
             this._newTime = null;
         }
+    }
+
+    _handleHover() {
+
+        this.fireAncestors("$handleHoverState", this.ref);
     }
 }

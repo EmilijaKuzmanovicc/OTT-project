@@ -27,8 +27,6 @@ export default class MovieDetalPage extends Lightning.Component {
                     color: BRANDING_COLORS.BLACK_TRANSPARENT,
                 },
             },
-
-
             BackButton: {
                 collision: true,
                 x: 69,
@@ -44,7 +42,6 @@ export default class MovieDetalPage extends Lightning.Component {
                 y: 173,
                 w: 1083,
                 h: 592,
-
                 MediaHeader: {
                     h: 90,
                     type: MediaHeader
@@ -57,6 +54,7 @@ export default class MovieDetalPage extends Lightning.Component {
             }
         }
     }
+
     get _BackButton() { return this.tag('BackButton') }
     get _BodyInformations() { return this.tag('BodyInformations') }
     get _MediaHeader() { return this.tag('MediaHeader') }

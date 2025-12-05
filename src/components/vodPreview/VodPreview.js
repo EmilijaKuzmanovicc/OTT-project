@@ -118,15 +118,8 @@ export default class VodPreview extends Lightning.Component {
         });
     }
 
-    static _states() {
-        return [
-            class VodContainer extends this {
-                _handleUp() {
-                    Router.focusWidget("Menu");
-                    return true;
-                }
-            }
-        ];
+    _active() {
+        this._indexSelected = 0
     }
 
     _getFocused() { return this.tag('Column'); }

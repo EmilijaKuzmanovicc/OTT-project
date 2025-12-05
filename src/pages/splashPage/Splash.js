@@ -1,9 +1,12 @@
-import { Router, Utils, Lightning } from "@lightningjs/sdk";
+import Lightning from "@lightningjs/sdk/src/Lightning";
 import { IMAGES_URL } from "../../utils/constants/URLs";
+import { Router, Utils } from "@lightningjs/sdk";
+
 
 export default class Splash extends Lightning.Component {
     static _template() {
         return {
+            zIndex: 100,
             Background: {
                 rect: true,
                 w: 1920,
@@ -25,7 +28,7 @@ export default class Splash extends Lightning.Component {
     async _active() {
         setTimeout(() => {
             Router.navigate('home', false);
-        }, 3000);
+        }, 5000);
     }
 
     _disable() {

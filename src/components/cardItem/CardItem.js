@@ -89,7 +89,6 @@ export default class CardItem extends Lightning.Component {
 
     _handleEnter() {
         const { id, railType, index } = this._props;
-
         this.fireAncestors('$storeSelectedIndex', index);
         switch (railType.toUpperCase()) {
             case ITEMS_NAME.MOVIES:

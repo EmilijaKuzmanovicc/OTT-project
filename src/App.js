@@ -21,8 +21,8 @@ export default class App extends Router.App {
     return {
       w: 1920,
       h: 1080,
-      rect: true,
-      color: BRANDING_COLORS.BLACK_TRANSPARENT,
+      // rect: true,
+      // color: BRANDING_COLORS.TRANSPARENT,
       Background: {
         w: 1920,
         h: 1080,

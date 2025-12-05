@@ -1,5 +1,4 @@
-import Player from "./components/player/Player";
-import Splash from "./components/splashPage/Splash";
+
 import VodPreview from "./components/vodPreview/VodPreview";
 import onVod from "./components/vodPreview/provider/onVod";
 import MovieDetalPage from "./pages/detailPages/movieDetailPage/MovieDetailPage";
@@ -8,6 +7,8 @@ import SeriesDetalPage from "./pages/detailPages/seriesDetailPage/SeriesDetailPa
 import onSeriesDetail from "./pages/detailPages/seriesDetailPage/provider/onSeriesDetail";
 import Home from "./pages/home/Home";
 import onHome from "./pages/home/provider/onHome";
+import Player from "./pages/player/Player";
+import Splash from "./pages/splashPage/Splash";
 import { ROUTES_PATHS } from "./utils/constants/Constants";
 
 export default {
