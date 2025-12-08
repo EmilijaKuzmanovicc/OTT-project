@@ -1,11 +1,13 @@
-import { Router, Lightning, Utils } from "@lightningjs/sdk";
-import { BRANDING_COLORS } from "../../utils/constants/Colors";
-import CardItem from "../cardItem/CardItem";
-import HorizontalContainer from "../horizontalContainer/HorizontalContainer";
-import { Fonts } from "../../utils/constants/ConstantsForStyle";
-import { VOD_TYPES } from "../../utils/constants/Constants";
-import { URLS_VITE } from "../../utils/constants/env";
+import { Router, Utils } from "@lightningjs/sdk";
+import Lightning from "@lightningjs/sdk/src/Lightning";
 import { IMAGES_URL } from "../../utils/constants/URLs";
+import { VOD_TYPES } from "../../utils/constants/Constants";
+import HorizontalContainer from "../../components/horizontalContainer/HorizontalContainer.js";
+import { Fonts } from "../../utils/constants/ConstantsForStyle.js";
+import { URLS_VITE } from "../../utils/constants/env.js";
+import { BRANDING_COLORS } from "../../utils/constants/Colors.js";
+import CardItem from "../../components/cardItem/CardItem.js";
+
 export default class VodPreview extends Lightning.Component {
     _props = {};
     _indexSelected = 0;

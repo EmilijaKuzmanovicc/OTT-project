@@ -98,7 +98,7 @@ export default class CardItem extends Lightning.Component {
                 Router.navigate(`series-details/${id}`);
                 break;
             default:
-                console.warn(`Nepoznat railType: ${railType}`);
+                console.warn(`Unknown railType: ${railType}`);
                 break;
         }
     }

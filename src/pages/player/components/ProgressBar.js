@@ -3,7 +3,7 @@ import { BRANDING_COLORS } from "../../../utils/constants/Colors";
 import { VideoPlayer } from "@lightningjs/sdk";
 import { formatTime } from "../utils/formatTime";
 import { Align, Fonts } from "../../../utils/constants/ConstantsForStyle";
-
+import { computeSeekTime } from "../utils/computeSeekTime";
 export default class ProgressBar extends Lightning.Component {
     _props = { radius: 6, width: 1404, height: 9, markerRadius: 8 };
     _newTime = null;
@@ -19,13 +19,7 @@ export default class ProgressBar extends Lightning.Component {
                 h: 31,
                 rect: true,
                 color: BRANDING_COLORS.WHITE,
-                text: {
-                    text: "00:00",
-                    fontFace: Fonts.InterBold,
-                    fontSize: 26,
-                    textColor: BRANDING_COLORS.WHITE,
-                    letterSpacing: 1
-                }
+                text: { text: "00:00", fontFace: Fonts.InterBold, fontSize: 26, textColor: BRANDING_COLORS.WHITE, letterSpacing: 1 }
             },
             ProgressBar: {
                 collision: true,
@@ -40,12 +34,7 @@ export default class ProgressBar extends Lightning.Component {
                     color: BRANDING_COLORS.RED,
                     Marker: {
                         visible: false,
-                        texture: lng.Tools.getRoundRect(
-                            24, 24, 12, 3,
-                            BRANDING_COLORS.WHITE,
-                            true,
-                            BRANDING_COLORS.RED
-                        )
+                        texture: lng.Tools.getRoundRect(24, 24, 12, 3, BRANDING_COLORS.WHITE, true, BRANDING_COLORS.RED)
                     }
                 }
             },
@@ -119,8 +108,6 @@ export default class ProgressBar extends Lightning.Component {
         if (Math.floor(time) === Math.floor(VideoPlayer.duration)) {
             if (!this._isEnd) {
                 this.fireAncestors("$videoIsEnded")
-                // this.fireAncestors("$videoPlayerEnded")
-
             }
         }
         else {
@@ -136,32 +123,35 @@ export default class ProgressBar extends Lightning.Component {
     }
 
     _handleRight() {
-        if (this._direction !== 'right') {
-            this._direction = 'right';
-            this._numOfTriggers = 0;
-        }
-        if (!this._speedUpTimer) {
-            this._speedUpTimer = setInterval(() => {
-                if (this._numOfTriggers < 25) this._numOfTriggers += 5;
-            }, 500);
-        }
-        if (this._newTime == null) this._newTime = VideoPlayer.currentTime;
-        this._newTime = computeSeekTime(5 + this._numOfTriggers, this._newTime);
-        this.fireAncestors("$showControls");
+        this._skipVideoForwardBack(false)
     }
 
     _handleLeft() {
-        if (this._direction !== 'left') {
-            this._direction = 'left';
+        this._skipVideoForwardBack(true)
+    }
+
+    _skipVideoForwardBack(back) {
+        const newDirection = back ? "left" : "right";
+
+        if (this._direction !== newDirection) {
+            this._direction = newDirection;
             this._numOfTriggers = 0;
         }
+
         if (!this._speedUpTimer) {
             this._speedUpTimer = setInterval(() => {
-                if (this._numOfTriggers < 25) this._numOfTriggers += 5;
+                if (this._numOfTriggers < 25)
+                    this._numOfTriggers += 5;
             }, 500);
         }
-        if (this._newTime == null) this._newTime = VideoPlayer.currentTime;
-        this._newTime = computeSeekTime(-5 - this._numOfTriggers, this._newTime);
+
+        if (this._newTime == null)
+            this._newTime = VideoPlayer.currentTime;
+
+        const base = back ? -5 : 5;
+        const delta = back ? base - this._numOfTriggers : base + this._numOfTriggers;
+
+        this._newTime = computeSeekTime(delta, this._newTime);
         this.fireAncestors("$showControls");
     }
 
@@ -184,7 +174,7 @@ export default class ProgressBar extends Lightning.Component {
     }
 
     _handleHover() {
-
+        this.fireAncestors("$showControls")
         this.fireAncestors("$handleHoverState", this.ref);
     }
 }

@@ -4,7 +4,7 @@ import LoadingComponent from "../../components/loaderComponent/LoaderComponent";
 import { Align, Direction } from "../../utils/constants/ConstantsForStyle";
 import HorizontalContainer from "../../components/horizontalContainer/HorizontalContainer";
 import { Router, Utils, VideoPlayer } from "@lightningjs/sdk";
-import { loader, unloader } from "./HLS";
+import { loader, unloader } from "./hls/HLS";
 import { endVideoIcons, playerIcons } from "../../utils/constants/PlayerIcons";
 import { PLAYER_ICONS } from "../../utils/constants/URLs";
 import PlayerButton from "./components/PlayerButton";
@@ -234,7 +234,7 @@ export default class Player extends Lightning.Component {
 
         });
         this._controlsVisible = true;
-
+        //}
         this._ProgressBarWraper._updateProgressBar();
         if (this._isPaused || this._isEnd) return;
 
@@ -242,17 +242,10 @@ export default class Player extends Lightning.Component {
             if (!this._progressBarTimer) {
                 this._progressBarTimer = setInterval(() => {
                     this._ProgressBarWraper._updateProgressBar();
-                }, 100);
+                }, 1000);
             }
         }
-        // if (!this._isEnd) {
-        //     if (!this._progressBarTimer) {
-        //         this._progressBarTimer = setInterval(() => {
-        //             this._ProgressBarWraper._updateProgressBar();
 
-        //         }, 100);
-        //     }
-        // }
         if (!this._isPaused && !this._isEnd)
             this._controlsTimeout = setTimeout(() => {
                 //   this._controlsTimeout = null;
@@ -400,25 +393,13 @@ export default class Player extends Lightning.Component {
 
     }
 
-    $playPauseVideo() {
-        if (this._isPaused) {
-            this.$pauseVideo();
-        } else {
-            this.$playVideo();
-
-        }
-        this.$showControls();
-    }
-
     _updatePausePlayIcon(icon) {
-        // setTimeout(() => {
         const btn = this._Controls.Items.children[this._focusedIconId];
         if (btn && btn._Image) {
             btn._Image.patch({
                 texture: lng.Tools.getSvgTexture(Utils.asset(icon), 90, 90)
             });
         }
-        // }, 0);
     }
 
     _handleForward() {

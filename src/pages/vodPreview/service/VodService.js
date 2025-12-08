@@ -1,6 +1,7 @@
 import FetchingService from "../../../api/FetchingService";
 import { API_URLS } from "../../../utils/constants/URLs";
 
+
 class VodService extends FetchingService {
     #movies = null;
     #series = null;

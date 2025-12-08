@@ -1,6 +1,3 @@
-
-import VodPreview from "./components/vodPreview/VodPreview";
-import onVod from "./components/vodPreview/provider/onVod";
 import MovieDetalPage from "./pages/detailPages/movieDetailPage/MovieDetailPage";
 import onMovieDetail from "./pages/detailPages/movieDetailPage/provider/onMovieDetail";
 import SeriesDetalPage from "./pages/detailPages/seriesDetailPage/SeriesDetailPage";
@@ -9,6 +6,8 @@ import Home from "./pages/home/Home";
 import onHome from "./pages/home/provider/onHome";
 import Player from "./pages/player/Player";
 import Splash from "./pages/splashPage/Splash";
+import VodPreview from "./pages/vodPreview/VodPreview";
+import onVod from "./pages/vodPreview/provider/onVod";
 import { ROUTES_PATHS } from "./utils/constants/Constants";
 
 export default {
